@@ -1,0 +1,656 @@
+---
+import PencilUnderline from "./PencilUnderline.astro";
+
+// Contact form: two parallel markups swapped at 1200px via CSS.
+// >=1200px (contact-desktop): original two-column layout, untouched.
+// <1200px (contact-mobile): stacked graphite layout with combined copy.
+// Both submit via mailto until a real backend/endpoint is wired up.
+---
+
+<div class="contact__divider" aria-hidden="true"></div>
+
+<section class="contact" id="contact" style="--accent:#d4302f">
+	<div class="contact-desktop">
+		<div class="contact__header">
+			<p class="contact__eyebrow">
+				<span>Get in touch</span><PencilUnderline color="var(--accent)" thickness={2} />
+			</p>
+			<h2 class="contact__title">Start your project</h2>
+			<p class="contact__subtitle">
+				Tell us a little about the space and we'll come back to you within one working day.
+			</p>
+		</div>
+
+		<div class="contact__panel">
+			<div class="contact__intro">
+				<p class="contact__intro-line contact__intro-line--design-build">Design.</p>
+				<p class="contact__intro-line contact__intro-line--furniture">Furniture.</p>
+				<p class="contact__intro-line contact__intro-line--joinery">Joinery.</p>
+				<p class="contact__intro-line contact__intro-line--plants">Plants.</p>
+				<p class="contact__intro-line contact__intro-line--signage">Signage.</p>
+				<p class="contact__intro-text">
+					One point of contact from first sketch to final snag. Fill in the form and a member
+					of the team will be in touch to arrange a call or site visit.
+				</p>
+				<p class="contact__direct-line">
+					<span class="contact__direct-prefix">Email -</span>
+					<a class="contact__direct" href="mailto:hello@hoxboxdesignbuild.com">hello@hoxboxdesignbuild.com</a>
+				</p>
+				<p class="contact__direct-line">
+					<span class="contact__direct-prefix">Phone -</span>
+					<a class="contact__direct" href="tel:+447584281831">07584 281831</a>
+				</p>
+			</div>
+
+			<form class="contact__form" data-contact-form novalidate>
+				<div class="contact__row">
+					<label class="contact__field">
+						<span class="contact__label">Name</span>
+						<input class="contact__input" type="text" name="name" required autocomplete="name" />
+					</label>
+					<label class="contact__field">
+						<span class="contact__label">Email</span>
+						<input class="contact__input" type="email" name="email" required autocomplete="email" />
+					</label>
+				</div>
+
+				<div class="contact__row">
+					<label class="contact__field">
+						<span class="contact__label">Phone</span>
+						<input class="contact__input" type="tel" name="phone" autocomplete="tel" />
+					</label>
+					<label class="contact__field">
+						<span class="contact__label">Project type</span>
+						<select class="contact__input contact__input--select" name="project-type">
+							<option value="">Select one</option>
+							<option value="design-build">Design &amp; Build</option>
+							<option value="furniture">Furniture</option>
+							<option value="joinery">Joinery</option>
+							<option value="plants">Plants</option>
+							<option value="signage">Signage</option>
+							<option value="other">Other</option>
+						</select>
+					</label>
+				</div>
+
+				<label class="contact__field">
+					<span class="contact__label">Tell us about your project</span>
+					<textarea class="contact__input contact__input--area" name="message" rows="3" required></textarea>
+				</label>
+
+				<button class="contact__submit" type="submit">
+					<span class="contact__submit-bg" aria-hidden="true"></span>
+					<span class="contact__submit-edge" aria-hidden="true"></span>
+					<span class="contact__submit-label" data-label="Send message">Send message</span>
+				</button>
+
+				<p class="contact__status" data-contact-status role="status" aria-live="polite"></p>
+			</form>
+		</div>
+	</div>
+
+	<div class="contact-mobile">
+		<div class="contact__header">
+			<p class="contact__eyebrow">
+				<span>Get in touch</span><PencilUnderline color="var(--accent)" thickness={2} />
+			</p>
+			<h2 class="contact__title">Start your project</h2>
+			<p class="contact__subtitle">
+				Design, furniture, joinery, plants and signage, one point of contact from first
+				sketch to final snag. Fill in the form and we'll come back to you within one working
+				day to arrange a call or site visit.
+			</p>
+			<p class="contact__direct-row">
+				<span class="contact__direct-item">
+					<span class="contact__direct-label">Email</span>
+					<a class="contact__direct" href="mailto:hello@hoxboxdesignbuild.com">hello@hoxboxdesignbuild.com</a>
+				</span>
+				<span class="contact__direct-item">
+					<span class="contact__direct-label">Phone</span>
+					<a class="contact__direct" href="tel:+447584281831">07584 281831</a>
+				</span>
+			</p>
+		</div>
+
+		<div class="contact__panel">
+			<form class="contact__form" data-contact-form novalidate>
+				<div class="contact__row">
+					<label class="contact__field">
+						<span class="contact__label">Name</span>
+						<input class="contact__input" type="text" name="name" required autocomplete="name" />
+					</label>
+					<label class="contact__field">
+						<span class="contact__label">Email</span>
+						<input class="contact__input" type="email" name="email" required autocomplete="email" />
+					</label>
+				</div>
+
+				<div class="contact__row">
+					<label class="contact__field">
+						<span class="contact__label">Phone</span>
+						<input class="contact__input" type="tel" name="phone" autocomplete="tel" />
+					</label>
+					<label class="contact__field">
+						<span class="contact__label">Project type</span>
+						<select class="contact__input contact__input--select" name="project-type">
+							<option value="">Select one</option>
+							<option value="design-build">Design &amp; Build</option>
+							<option value="furniture">Furniture</option>
+							<option value="joinery">Joinery</option>
+							<option value="plants">Plants</option>
+							<option value="signage">Signage</option>
+							<option value="other">Other</option>
+						</select>
+					</label>
+				</div>
+
+				<label class="contact__field">
+					<span class="contact__label">Tell us about your project</span>
+					<textarea class="contact__input contact__input--area" name="message" rows="3" required></textarea>
+				</label>
+
+				<button class="contact__submit" type="submit">
+					<span class="contact__submit-bg" aria-hidden="true"></span>
+					<span class="contact__submit-edge" aria-hidden="true"></span>
+					<span class="contact__submit-label" data-label="Send message">Send message</span>
+				</button>
+
+				<p class="contact__status" data-contact-status role="status" aria-live="polite"></p>
+			</form>
+		</div>
+	</div>
+</section>
+
+<style>
+	.contact__divider {
+		height: 1px;
+		width: 100%;
+		background: linear-gradient(
+			to right,
+			var(--color-bg-light) 0%,
+			color-mix(in srgb, var(--color-graphite) 60%, var(--color-bg-light)) 50%,
+			var(--color-bg-light) 100%
+		);
+	}
+
+	.contact {
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		color: var(--color-text);
+	}
+
+	.contact-desktop {
+		display: block;
+		padding-bottom: var(--section-pad-y);
+	}
+
+	.contact-mobile {
+		display: none;
+	}
+
+	/* ---- Desktop (>=1200px): original layout, unchanged ---- */
+
+	.contact-desktop .contact__header {
+		max-width: 40rem;
+		margin: 0 auto;
+		padding: var(--section-pad-y) clamp(2rem, 4.5vw, 4rem) var(--space-6);
+		text-align: center;
+	}
+
+	.contact-desktop .contact__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.207em;
+		text-transform: uppercase;
+		color: var(--color-text);
+		margin: 0 0 var(--space-4);
+	}
+
+	.contact-desktop .contact__title {
+		font-family: var(--font-display);
+		font-size: clamp(1.9rem, 3.2vw, var(--text-3xl));
+		text-transform: uppercase;
+		line-height: var(--leading-tight);
+		color: var(--color-text);
+		margin: 0 0 var(--space-3);
+	}
+
+	.contact-desktop .contact__subtitle {
+		font-size: calc(var(--text-lg) * 0.85);
+		color: var(--color-text-muted);
+		line-height: var(--leading-normal);
+		margin: 0;
+	}
+
+	.contact-desktop .contact__panel {
+		position: relative;
+		max-width: var(--content-width);
+		margin: 0 auto;
+		background: var(--color-graphite);
+		box-sizing: border-box;
+		display: grid;
+		grid-template-columns: 0.85fr 1.15fr;
+		overflow: hidden;
+	}
+
+	.contact-desktop .contact__intro {
+		position: relative;
+		padding: clamp(3rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+		border-right: 1px solid color-mix(in srgb, #fff 12%, transparent);
+	}
+
+	.contact-desktop .contact__intro-line {
+		font-family: var(--font-display);
+		font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+		text-transform: uppercase;
+		line-height: 1.05;
+		color: #fff;
+		margin: 0;
+	}
+
+	.contact-desktop .contact__intro-line--design-build {
+		color: var(--color-division-design-build);
+	}
+
+	.contact-desktop .contact__intro-line--furniture {
+		color: var(--color-division-furniture);
+	}
+
+	.contact-desktop .contact__intro-line--joinery {
+		color: var(--color-division-joinery);
+	}
+
+	.contact-desktop .contact__intro-line--plants {
+		color: var(--color-division-plants);
+	}
+
+	.contact-desktop .contact__intro-line--signage {
+		color: var(--color-division-signage);
+		margin-bottom: 1.5rem;
+	}
+
+	.contact-desktop .contact__intro-text {
+		font-size: var(--text-sm);
+		line-height: var(--leading-normal);
+		color: color-mix(in srgb, #fff 65%, transparent);
+		max-width: 22rem;
+		margin: 0 0 var(--space-5);
+	}
+
+	.contact-desktop .contact__direct-line {
+		display: flex;
+		align-items: baseline;
+		gap: 0.4em;
+		margin: 0 0 var(--space-2);
+	}
+
+	.contact-desktop .contact__direct-prefix {
+		font-size: var(--text-sm);
+		font-weight: 700;
+		color: color-mix(in srgb, #fff 65%, transparent);
+	}
+
+	.contact-desktop .contact__direct {
+		width: fit-content;
+		font-size: var(--text-sm);
+		font-weight: 700;
+		color: #fff;
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		text-decoration-color: color-mix(in srgb, #fff 35%, transparent);
+		transition: text-decoration-color 250ms var(--ease-standard);
+	}
+
+	.contact-desktop .contact__direct:hover,
+	.contact-desktop .contact__direct:focus-visible {
+		text-decoration-color: var(--accent);
+	}
+
+	.contact-desktop .contact__form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		padding: clamp(3rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem);
+	}
+
+	.contact-desktop .contact__row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-4);
+	}
+
+	/* ---- Mobile/tablet (<1200px): stacked graphite layout ---- */
+
+	.contact-mobile .contact__header {
+		max-width: 40rem;
+		margin: 0 auto;
+		padding: var(--section-pad-y) clamp(2rem, 4.5vw, 4rem) var(--space-6);
+		text-align: center;
+	}
+
+	.contact-mobile .contact__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.207em;
+		text-transform: uppercase;
+		color: var(--color-text);
+		margin: 0 0 var(--space-4);
+	}
+
+	.contact-mobile .contact__title {
+		font-family: var(--font-display);
+		font-size: clamp(1.9rem, 3.2vw, var(--text-3xl));
+		text-transform: uppercase;
+		line-height: var(--leading-tight);
+		color: var(--color-text);
+		margin: 0 0 var(--space-3);
+	}
+
+	.contact-mobile .contact__subtitle {
+		font-size: clamp(var(--text-base), 1.9vw, var(--text-lg));
+		color: var(--color-text-muted);
+		line-height: var(--leading-normal);
+		max-width: 34rem;
+		margin: 0 auto var(--space-5);
+	}
+
+	.contact-mobile .contact__direct-row {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: baseline;
+		justify-content: center;
+		gap: 0.6em;
+		margin: 0;
+	}
+
+	.contact-mobile .contact__direct-item {
+		display: inline-flex;
+		align-items: baseline;
+		gap: 0.4em;
+	}
+
+	.contact-mobile .contact__direct-label {
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.contact-mobile .contact__direct {
+		width: fit-content;
+		font-size: var(--text-sm);
+		font-weight: 700;
+		color: var(--color-text);
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		text-decoration-color: color-mix(in srgb, currentColor 35%, transparent);
+		transition: text-decoration-color 250ms var(--ease-standard);
+	}
+
+	.contact-mobile .contact__direct:hover,
+	.contact-mobile .contact__direct:focus-visible {
+		text-decoration-color: var(--accent);
+	}
+
+	.contact-mobile .contact__panel {
+		position: relative;
+		max-width: var(--content-width);
+		margin: 0 auto;
+		background: var(--color-graphite);
+		box-sizing: border-box;
+		overflow: hidden;
+	}
+
+	.contact-mobile .contact__form {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-4);
+		padding: clamp(3rem, 5vw, 4rem) clamp(2rem, 4vw, 3rem) var(--section-pad-y);
+	}
+
+	.contact-mobile .contact__row {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-4);
+	}
+
+	.contact-mobile .contact__submit {
+		align-self: center;
+	}
+
+	/* ---- Shared field/button styling (identical in both) ---- */
+
+	.contact__field {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.contact__label {
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #fff 55%, transparent);
+	}
+
+	.contact__input {
+		appearance: none;
+		width: 100%;
+		box-sizing: border-box;
+		background: transparent;
+		border: none;
+		border-bottom: 1px solid color-mix(in srgb, #fff 30%, transparent);
+		border-radius: 0;
+		padding: 0.6rem 0;
+		font-family: var(--font-body);
+		font-size: var(--text-base);
+		color: #fff;
+		transition: border-color 250ms var(--ease-standard);
+	}
+
+	.contact__input::placeholder {
+		color: color-mix(in srgb, #fff 40%, transparent);
+	}
+
+	.contact__input:focus {
+		outline: none;
+		border-bottom-color: var(--accent);
+	}
+
+	.contact__input--select {
+		cursor: pointer;
+	}
+
+	.contact__input--select option {
+		background: var(--color-graphite);
+		color: #fff;
+	}
+
+	.contact__input--area {
+		resize: vertical;
+		min-height: 3.5rem;
+	}
+
+	.contact__submit {
+		--btn-pad: 0.85rem 1.75rem;
+		position: relative;
+		display: inline-flex;
+		align-self: flex-start;
+		width: fit-content;
+		background: var(--accent);
+		color: #fff;
+		border: none;
+		text-decoration: none;
+		overflow: hidden;
+		isolation: isolate;
+		cursor: pointer;
+		margin-top: var(--space-2);
+	}
+
+	.contact__submit-bg {
+		position: absolute;
+		inset: 0;
+		width: 2px;
+		background: #fff;
+		transition: width 350ms var(--ease-standard);
+		z-index: 0;
+	}
+
+	.contact__submit:hover .contact__submit-bg,
+	.contact__submit:focus-visible .contact__submit-bg {
+		width: 100%;
+	}
+
+	.contact__submit-edge {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: var(--accent);
+		opacity: 0;
+		z-index: 1;
+		transition: opacity 350ms var(--ease-standard);
+	}
+
+	.contact__submit:hover .contact__submit-edge,
+	.contact__submit:focus-visible .contact__submit-edge {
+		opacity: 1;
+	}
+
+	.contact__submit-label {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+		transition: transform 150ms var(--ease-standard);
+	}
+
+	.contact__submit-label::after {
+		content: attr(data-label);
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		padding: var(--btn-pad);
+		color: var(--accent);
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 350ms var(--ease-standard);
+		pointer-events: none;
+	}
+
+	.contact__submit:hover .contact__submit-label::after,
+	.contact__submit:focus-visible .contact__submit-label::after {
+		clip-path: inset(0 0 0 0);
+	}
+
+	.contact__submit:active .contact__submit-label {
+		transform: scale(0.97);
+	}
+
+	.contact__status:empty {
+		display: none;
+	}
+
+	.contact__status {
+		font-size: var(--text-xs);
+		color: color-mix(in srgb, #fff 65%, transparent);
+		margin: 0;
+		min-height: 1em;
+	}
+
+	/* ---- Breakpoint switch: desktop <-> mobile/tablet ---- */
+
+	@media (max-width: 1199px) {
+		.contact-desktop {
+			display: none;
+		}
+
+		.contact-mobile {
+			display: block;
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.contact-mobile .contact__header {
+			padding: var(--space-6) var(--space-4) var(--space-5);
+		}
+
+		.contact-mobile .contact__row {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.contact-mobile {
+			background: var(--color-graphite);
+		}
+
+		.contact-mobile .contact__title,
+		.contact-mobile .contact__eyebrow {
+			color: #fff;
+		}
+
+		.contact-mobile .contact__subtitle {
+			color: color-mix(in srgb, #fff 65%, transparent);
+		}
+
+		.contact-mobile .contact__direct-label {
+			color: color-mix(in srgb, #fff 55%, transparent);
+		}
+
+		.contact-mobile .contact__direct {
+			color: #fff;
+		}
+	}
+</style>
+
+<script>
+	const forms = document.querySelectorAll<HTMLFormElement>("[data-contact-form]");
+
+	forms.forEach((form) => {
+		const status = form.querySelector<HTMLElement>("[data-contact-status]");
+
+		form.addEventListener("submit", (event) => {
+			event.preventDefault();
+			const data = new FormData(form);
+			const name = String(data.get("name") ?? "");
+			const email = String(data.get("email") ?? "");
+			const phone = String(data.get("phone") ?? "");
+			const projectType = String(data.get("project-type") ?? "");
+			const message = String(data.get("message") ?? "");
+
+			const body = [
+				`Name: ${name}`,
+				`Email: ${email}`,
+				phone && `Phone: ${phone}`,
+				projectType && `Project type: ${projectType}`,
+				"",
+				message,
+			]
+				.filter(Boolean)
+				.join("\n");
+
+			const mailto = `mailto:hello@hoxboxdesignbuild.com?subject=${encodeURIComponent(
+				"New enquiry from hoxboxdesignbuild.com"
+			)}&body=${encodeURIComponent(body)}`;
+
+			window.location.href = mailto;
+			if (status) status.textContent = "Opening your email client to send this enquiry…";
+		});
+	});
+</script>

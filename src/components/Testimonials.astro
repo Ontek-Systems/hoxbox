@@ -1,0 +1,350 @@
+---
+import PencilUnderline from "./PencilUnderline.astro";
+
+// Testimonials: full-bleed graphite quote panel, auto-cycling quote/name/Google
+// rating cross-fade (same 400/800ms cadence as Gallery.astro's division panels).
+// Placeholder copy — swap for real client quotes when supplied.
+// See docs/brand/section-build-standard.md and docs/brand/text-standards.md.
+const testimonials = [
+	{
+		quote:
+			"Hox Box took our office from a rough shell to a finished space without a single handover gap between design and build. One point of contact, start to end.",
+		name: "James Whitfield",
+		company: "Whitfield & Co",
+	},
+	{
+		quote:
+			"The team managed our refurbishment around a fully occupied building without disrupting the people working in it. Professional, tidy, and always on schedule.",
+		name: "Priya Anand",
+		company: "Anand Group",
+	},
+	{
+		quote:
+			"From concept sketches to the final joinery details, everything felt considered. It's rare to find a contractor that also gets design.",
+		name: "Tom Reilly",
+		company: "Reilly Studio",
+	},
+	{
+		quote:
+			"Aftercare has been just as strong as the build itself. Any small snag gets sorted within days, not weeks.",
+		name: "Sarah Cole",
+		company: "Cole & Partners",
+	},
+];
+---
+
+<div class="testimonials__divider" aria-hidden="true"></div>
+
+<section class="testimonials" id="testimonials" style="--accent:#d4302f">
+	<div class="testimonials__header">
+		<p class="testimonials__eyebrow">
+			<span>Testimonials</span><PencilUnderline color="var(--accent)" thickness={2} />
+		</p>
+		<h2 class="testimonials__title">What clients say</h2>
+		<p class="testimonials__subtitle">
+			Real feedback from the people we've designed and built for.
+		</p>
+	</div>
+
+	<div class="testimonials__panel" data-testimonials-panel>
+		<div class="testimonials__badge">
+			<svg class="testimonials__google-g" viewBox="0 0 48 48" aria-hidden="true">
+				<path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z" />
+				<path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z" />
+				<path fill="#FBBC05" d="M11.69 28.18A13.86 13.86 0 0 1 10.94 24c0-1.45.25-2.86.7-4.18v-5.7H4.34A21.98 21.98 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z" />
+				<path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.9 4.18 29.92 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z" />
+			</svg>
+			<span class="testimonials__stars" aria-label="5 out of 5 stars">★★★★★</span>
+		</div>
+
+		<div class="testimonials__stack" data-testimonials-stack>
+			{
+				testimonials.map((t, i) => (
+					<div class:list={["testimonials__slide", { "is-current": i === 0 }]} data-testimonials-slide>
+						<p class="testimonials__quote">&ldquo;{t.quote}&rdquo;</p>
+						<p class="testimonials__attribution">{t.name}, {t.company}</p>
+					</div>
+				))
+			}
+		</div>
+
+		<div class="testimonials__dots" role="tablist" aria-label="Choose a testimonial">
+			{
+				testimonials.map((_, i) => (
+					<button
+						type="button"
+						class:list={["testimonials__dot", { "is-current": i === 0 }]}
+						data-testimonials-dot={i}
+						aria-label={`Show testimonial ${i + 1}`}
+					/>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<style>
+	.testimonials__divider {
+		height: 1px;
+		width: 100%;
+		background: linear-gradient(
+			to right,
+			var(--color-bg) 0%,
+			color-mix(in srgb, var(--color-graphite) 60%, var(--color-bg)) 50%,
+			var(--color-bg) 100%
+		);
+	}
+
+	.testimonials {
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		color: var(--color-text);
+		padding-bottom: var(--section-pad-y);
+	}
+
+	.testimonials__header {
+		max-width: 40rem;
+		margin: 0 auto;
+		padding: var(--section-pad-y) clamp(2rem, 4.5vw, 4rem) var(--space-6);
+		text-align: center;
+	}
+
+	.testimonials__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.207em;
+		text-transform: uppercase;
+		color: var(--color-text);
+		margin: 0 0 var(--space-4);
+	}
+
+	.testimonials__title {
+		font-family: var(--font-display);
+		font-size: clamp(1.9rem, 3.2vw, var(--text-3xl));
+		text-transform: uppercase;
+		line-height: var(--leading-tight);
+		color: var(--color-text);
+		margin: 0 0 var(--space-3);
+		white-space: nowrap;
+	}
+
+	.testimonials__subtitle {
+		font-size: calc(var(--text-lg) * 0.85);
+		color: var(--color-text-muted);
+		line-height: var(--leading-normal);
+		margin: 0;
+	}
+
+	.testimonials__panel {
+		position: relative;
+		max-width: var(--content-width);
+		min-height: clamp(22rem, 32vw, 26rem);
+		margin: 0 auto;
+		padding: clamp(4.5rem, 6.5vw, 5.25rem) clamp(2rem, 4.5vw, 5rem) clamp(4.5rem, 7vw, 5.5rem);
+		background: var(--color-graphite);
+		box-sizing: border-box;
+		overflow: hidden;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+	}
+
+	.testimonials__badge {
+		position: absolute;
+		top: clamp(2rem, 4vw, 3rem);
+		left: clamp(2rem, 4.5vw, 5rem);
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		z-index: 2;
+	}
+
+	.testimonials__google-g {
+		width: 1.35rem;
+		height: 1.35rem;
+		flex-shrink: 0;
+	}
+
+	.testimonials__stars {
+		font-size: var(--text-sm);
+		letter-spacing: 0.1em;
+		color: #fbbc05;
+	}
+
+	.testimonials__stack {
+		position: relative;
+		transition: height 600ms var(--ease-standard);
+	}
+
+	.testimonials__slide {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		display: flex;
+		flex-direction: column;
+		opacity: 0;
+		transform: translateY(0.75rem);
+		transition: opacity 450ms var(--ease-standard), transform 450ms var(--ease-standard);
+		pointer-events: none;
+	}
+
+	.testimonials__slide .testimonials__attribution {
+		align-self: flex-start;
+	}
+
+	.testimonials__slide.is-current {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	.testimonials__quote {
+		font-family: var(--font-display);
+		font-size: clamp(1.3rem, 2.4vw, var(--text-2xl));
+		line-height: var(--leading-tight);
+		color: #fff;
+		margin: 1.5rem 0 1.35rem;
+		max-width: 42rem;
+	}
+
+	.testimonials__attribution {
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.207em;
+		text-transform: uppercase;
+		color: #fff;
+		white-space: nowrap;
+		margin: 0;
+	}
+
+	.testimonials__dots {
+		position: absolute;
+		right: clamp(2rem, 4.5vw, 5rem);
+		bottom: clamp(2rem, 4vw, 3rem);
+		display: flex;
+		gap: 0.6rem;
+	}
+
+	.testimonials__dot {
+		width: 1.6rem;
+		height: 3px;
+		padding: 0;
+		border: 0;
+		background: color-mix(in srgb, #fff 30%, transparent);
+		cursor: pointer;
+		transition: background 300ms var(--ease-standard), width 300ms var(--ease-standard);
+	}
+
+	.testimonials__dot.is-current {
+		width: 2.6rem;
+		background: var(--accent);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.testimonials__slide {
+			transition: none !important;
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.testimonials__header {
+			padding: var(--space-6) var(--space-4) var(--space-5);
+		}
+
+		.testimonials__title {
+			white-space: normal;
+		}
+
+		.testimonials__panel {
+			max-width: none;
+			margin: 0 var(--space-4);
+			padding: 3.05rem var(--space-4) 2rem;
+			min-height: 0;
+		}
+
+		.testimonials__badge {
+			top: 1.25rem;
+			left: var(--space-4);
+			gap: 0.15rem;
+		}
+
+		.testimonials__quote {
+			font-size: clamp(1.05rem, 4.2vw, 1.25rem);
+			margin: 0.4rem 0 0.9rem;
+		}
+
+		.testimonials__attribution {
+			font-size: calc(var(--text-xs) * 0.65);
+			letter-spacing: 0.12em;
+		}
+
+		.testimonials__slide .testimonials__attribution {
+			position: static;
+			transform: none;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.15rem;
+			white-space: normal;
+			margin-top: 0.2rem;
+			margin-bottom: 1.5rem;
+		}
+
+		.testimonials__dots {
+			right: var(--space-4);
+			bottom: 1.25rem;
+		}
+	}
+</style>
+
+<script>
+	const panel = document.querySelector<HTMLElement>("[data-testimonials-panel]");
+	const stack = document.querySelector<HTMLElement>("[data-testimonials-stack]");
+	const slides = Array.from(document.querySelectorAll<HTMLElement>("[data-testimonials-slide]"));
+	const dots = Array.from(document.querySelectorAll<HTMLButtonElement>("[data-testimonials-dot]"));
+	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+	if (panel && stack && slides.length > 1) {
+		let current = 0;
+		let timer: ReturnType<typeof setInterval> | null = null;
+		const intervalMs = 5000;
+
+		function setActive(index: number) {
+			current = (index + slides.length) % slides.length;
+			stack!.style.height = `${slides[current].scrollHeight}px`;
+			slides.forEach((slide, i) => slide.classList.toggle("is-current", i === current));
+			dots.forEach((dot, i) => dot.classList.toggle("is-current", i === current));
+		}
+
+		function start() {
+			if (reduceMotion) return;
+			stop();
+			timer = setInterval(() => setActive(current + 1), intervalMs);
+		}
+
+		function stop() {
+			if (timer) clearInterval(timer);
+			timer = null;
+		}
+
+		dots.forEach((dot, i) => {
+			dot.addEventListener("click", () => {
+				setActive(i);
+				start();
+			});
+		});
+
+		panel.addEventListener("mouseenter", stop);
+		panel.addEventListener("mouseleave", start);
+
+		stack.style.height = `${slides[current].scrollHeight}px`;
+		start();
+
+		window.addEventListener("resize", () => {
+			stack!.style.height = `${slides[current].scrollHeight}px`;
+		});
+	}
+</script>

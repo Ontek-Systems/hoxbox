@@ -8,15 +8,30 @@
 	/* Color */
 	--color-bg: #ffffff;
 	--color-bg-alt: #f5f4f2;
-	--color-text: #17181a;
+	/* Confirmed light section background (e.g. Home "About Hox Box") — not a placeholder.
+	   ~5% less saturated / ~5% brighter than the original #f6f4ed, less "beige". */
+	--color-bg-light: #f6f4ee;
+	/* Confirmed dark/graphite background for dark buttons and dark sections. */
+	--color-graphite: #1e1d1c;
+	/* Standard dark text color site-wide — same value as --color-graphite. */
+	--color-text: #1e1d1c;
 	--color-text-muted: #55585e;
 	--color-accent: #1f4d3f;
 	--color-accent-contrast: #ffffff;
 	--color-border: #e4e2df;
 
+	/* Locked division colors — sourced from each division's logo wordmark.
+	   Do not change without sign-off; keep in sync with src/components/Hero.astro
+	   and the SVGs in public/logo/. */
+	--color-division-design-build: #d4302f;
+	--color-division-furniture: #ed4693;
+	--color-division-joinery: #f6e31b;
+	--color-division-plants: #32b62b;
+	--color-division-signage: #16ace4;
+
 	/* Type */
 	--font-body: "Inter", system-ui, sans-serif;
-	--font-display: "Inter", system-ui, sans-serif;
+	--font-display: "LEMONMILK", "Inter", system-ui, sans-serif;
 
 	--text-xs: 0.75rem;
 	--text-sm: 0.875rem;
@@ -40,6 +55,12 @@
 	--space-8: 9rem;
 
 	/* Layout */
+	/* Standard vertical section padding: section top to first tagline/eyebrow,
+	   and bottom of last element (e.g. a button) to section bottom. Applies to
+	   every section except Hero, which has its own bespoke spacing. */
+	--section-pad-y: 5rem;
+	/* Height reserved for the fixed StickyNav when it's toggled visible mid-scroll. */
+	--nav-height: 5.5rem;
 	--content-width: 72rem;
 	--radius-sm: 2px;
 	--radius-md: 6px;

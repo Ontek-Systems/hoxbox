@@ -1,0 +1,827 @@
+---
+const navDropdownOrder = ["design-build", "furniture", "joinery", "plants", "signage"];
+
+const dropdownItems = [
+	{ id: "design-build", accent: "#d4302f", label: "Design & Build", href: "/projects" },
+	{ id: "furniture", accent: "#ed4693", label: "Furniture", href: "/furniture" },
+	{ id: "joinery", accent: "#f6e31b", label: "Joinery", href: "/joinery" },
+	{ id: "plants", accent: "#32b62b", label: "Plants", href: "/plants" },
+	{ id: "signage", accent: "#16ace4", label: "Signage", href: "/signage" },
+];
+
+const subLogos = {
+	"design-build": "/logo/design-build-white.svg",
+	furniture: "/logo/furniture.svg",
+	joinery: "/logo/joinery.svg",
+	plants: "/logo/plants.svg",
+	signage: "/logo/signage.svg",
+};
+
+const pathname = Astro.url.pathname;
+const currentId =
+	dropdownItems.find((item) => pathname === item.href || pathname.startsWith(item.href + "/"))?.id ??
+	"design-build";
+const startIndex = navDropdownOrder.indexOf(currentId);
+---
+
+<header class="sticky-nav" id="sticky-nav" data-sticky-nav>
+	<a class="sticky-nav__logo" href="/">
+		<img class="sticky-nav__logo-word" src="/logo/hoxbox-main-white.svg" alt="Hox Box" />
+		<span class="sticky-nav__logo-sub-wrap" data-logo-cycle data-order={navDropdownOrder.join(",")} data-start-index={startIndex}>
+			{navDropdownOrder.map((id) => (
+				<img
+					class="sticky-nav__logo-sub"
+					data-logo-img={id}
+					data-active={id === currentId ? "true" : "false"}
+					src={subLogos[id as keyof typeof subLogos]}
+					alt="Hox Box"
+				/>
+			))}
+		</span>
+	</a>
+	<nav class="sticky-nav__links" aria-label="Primary">
+		<div class="sticky-nav__group sticky-nav__group--left">
+			<a href="/about">About Us</a>
+			<a href="/gallery">Gallery</a>
+		</div>
+		<div class="sticky-nav__dropdown" data-dropdown>
+			<button
+				type="button"
+				class="sticky-nav__dropdown-trigger"
+				aria-haspopup="true"
+				aria-expanded="false"
+				data-dropdown-trigger
+			>
+				What We Do
+				<span class="sticky-nav__dropdown-caret" aria-hidden="true"></span>
+			</button>
+			<div class="sticky-nav__dropdown-panel" role="menu">
+				{navDropdownOrder.map((id) => {
+					const item = dropdownItems.find((d) => d.id === id)!;
+					return (
+						<a
+							href={item.href}
+							role="menuitem"
+							class="sticky-nav__dropdown-item"
+							style={`--item-accent:${item.accent}`}
+						>
+							<span class="sticky-nav__dropdown-swatch" aria-hidden="true"></span>
+							{item.label}
+						</a>
+					);
+				})}
+			</div>
+		</div>
+		<div class="sticky-nav__group sticky-nav__group--right">
+			<a href="/testimonials">Testimonials</a>
+			<a href="/case-studies">Case Studies</a>
+		</div>
+	</nav>
+	<a class="sticky-nav__button" href="/contact">
+		<span class="sticky-nav__button-bg" aria-hidden="true"></span>
+		<span class="sticky-nav__button-edge" aria-hidden="true"></span>
+		<span class="sticky-nav__button-label" data-label="Get in touch">Get in touch</span>
+	</a>
+
+	<button
+		type="button"
+		class="sticky-nav__burger"
+		aria-haspopup="true"
+		aria-expanded="false"
+		aria-label="Open menu"
+		data-burger-trigger
+	>
+		<span class="sticky-nav__burger-bar"></span>
+		<span class="sticky-nav__burger-bar"></span>
+		<span class="sticky-nav__burger-bar"></span>
+	</button>
+</header>
+
+<div class="sticky-nav__mobile-panel" data-mobile-panel role="menu">
+	<div class="sticky-nav__mobile-panel-scroll">
+		<nav class="sticky-nav__mobile-panel-primary" aria-label="Secondary">
+			<a href="/about" role="menuitem">About Us</a>
+			<a href="/gallery" role="menuitem">Gallery</a>
+			<a href="/testimonials" role="menuitem">Testimonials</a>
+			<a href="/case-studies" role="menuitem">Case Studies</a>
+			<a href="/contact" role="menuitem" class="sticky-nav__mobile-panel-cta">Get in touch</a>
+		</nav>
+
+		<ul class="sticky-nav__mobile-panel-divisions">
+			{navDropdownOrder.map((id) => {
+				const item = dropdownItems.find((d) => d.id === id)!;
+				return (
+					<li>
+						<a href={item.href} role="menuitem" class="sticky-nav__mobile-panel-division" style={`--division-color:${item.accent}`}>
+							<span class="sticky-nav__mobile-panel-division-bar" aria-hidden="true"></span>
+							<p class="sticky-nav__mobile-panel-division-name">{item.label}</p>
+						</a>
+					</li>
+				);
+			})}
+		</ul>
+	</div>
+</div>
+
+<style>
+	.sticky-nav {
+		position: fixed;
+		top: 0;
+		left: 0;
+		right: 0;
+		z-index: 100;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-4) clamp(1.5rem, 4vw, 3.5rem);
+		background: var(--color-graphite);
+		color: #fff;
+		transform: translateY(-100%);
+		transition: transform 420ms var(--ease-standard);
+	}
+
+	.sticky-nav[data-visible="true"] {
+		transform: translateY(0);
+	}
+
+	.sticky-nav__logo {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.35rem;
+		text-decoration: none;
+	}
+
+	.sticky-nav__logo-word {
+		display: block;
+		width: 5.5rem;
+		height: auto;
+	}
+
+	.sticky-nav__logo-sub-wrap {
+		display: grid;
+		justify-items: center;
+		width: 5.5rem;
+		height: calc(5.5rem * 61.499998 / 315);
+		overflow: hidden;
+	}
+
+	.sticky-nav__logo-sub {
+		--logo-scale: 1;
+		--logo-shift-x: 0%;
+		grid-area: 1 / 1;
+		align-self: start;
+		justify-self: center;
+		transform-origin: top center;
+		display: block;
+		width: 100%;
+		height: auto;
+		opacity: 0;
+		transform: translate(var(--logo-shift-x), -3px) scale(var(--logo-scale));
+		transition:
+			opacity 400ms var(--ease-standard),
+			transform 400ms var(--ease-standard);
+	}
+
+	.sticky-nav__logo-sub[data-logo-img="design-build"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.39%;
+	}
+
+	.sticky-nav__logo-sub[data-logo-img="joinery"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.33%;
+	}
+
+	.sticky-nav__logo-sub[data-logo-img="plants"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.2%;
+	}
+
+	.sticky-nav__logo-sub[data-logo-img="signage"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.35%;
+	}
+
+	.sticky-nav__logo-sub[data-active="true"] {
+		opacity: 1;
+		transform: translate(var(--logo-shift-x), 0) scale(var(--logo-scale));
+		transition-delay: 400ms;
+	}
+
+	.sticky-nav__links {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		flex: 1;
+		gap: var(--space-4);
+		font-size: var(--text-xs);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.sticky-nav__group {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+	}
+
+	.sticky-nav__group--left {
+		justify-content: flex-end;
+	}
+
+	.sticky-nav__group--right {
+		justify-content: flex-start;
+	}
+
+	.sticky-nav__links a {
+		position: relative;
+		text-decoration: none;
+		color: rgba(255, 255, 255, 0.8);
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.sticky-nav__links a::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -0.35rem;
+		height: 2px;
+		background: #d4302f;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 250ms var(--ease-standard);
+	}
+
+	.sticky-nav__links a:hover {
+		color: #fff;
+	}
+
+	.sticky-nav__links a:hover::after {
+		transform: scaleX(1);
+	}
+
+	.sticky-nav__dropdown {
+		position: relative;
+		justify-self: center;
+	}
+
+	.sticky-nav__dropdown-trigger {
+		all: unset;
+		position: relative;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		cursor: pointer;
+		font: inherit;
+		color: rgba(255, 255, 255, 0.8);
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.sticky-nav__dropdown-trigger::after {
+		content: "";
+		position: absolute;
+		left: 0;
+		right: 1.1rem;
+		bottom: -0.35rem;
+		height: 2px;
+		background: #d4302f;
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: transform 250ms var(--ease-standard);
+	}
+
+	.sticky-nav__dropdown-trigger:hover::after,
+	.sticky-nav__dropdown[data-open="true"] .sticky-nav__dropdown-trigger::after {
+		transform: scaleX(1);
+	}
+
+	.sticky-nav__dropdown-trigger:hover,
+	.sticky-nav__dropdown[data-open="true"] .sticky-nav__dropdown-trigger {
+		color: #fff;
+	}
+
+	.sticky-nav__dropdown-caret {
+		width: 7px;
+		height: 7px;
+		border-right: 1.5px solid currentColor;
+		border-bottom: 1.5px solid currentColor;
+		transform: rotate(45deg) translateY(-2px);
+		transition: transform 250ms var(--ease-standard);
+	}
+
+	.sticky-nav__dropdown[data-open="true"] .sticky-nav__dropdown-caret {
+		transform: rotate(-135deg) translateY(-1px);
+	}
+
+	.sticky-nav__dropdown-panel {
+		position: absolute;
+		top: calc(100% + 1.1rem);
+		left: 50%;
+		transform: translate(-50%, 8px);
+		display: flex;
+		flex-direction: column;
+		min-width: 12rem;
+		padding: 0.6rem 0;
+		background: #0a0a0a;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: var(--radius-sm);
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity 200ms var(--ease-standard),
+			transform 200ms var(--ease-standard),
+			visibility 200ms;
+	}
+
+	.sticky-nav__dropdown[data-open="true"] .sticky-nav__dropdown-panel {
+		opacity: 1;
+		visibility: visible;
+		transform: translate(-50%, 0);
+		pointer-events: auto;
+	}
+
+	.sticky-nav__dropdown-item {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.65rem 1.1rem;
+		font-size: var(--text-xs);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: rgba(255, 255, 255, 0.8);
+		transition: color 200ms var(--ease-standard);
+	}
+
+	.sticky-nav__dropdown-item:hover,
+	.sticky-nav__dropdown-item:focus-visible {
+		color: var(--item-accent);
+	}
+
+	.sticky-nav__dropdown-swatch {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--item-accent);
+		flex: none;
+	}
+
+	.sticky-nav__button {
+		--btn-pad: 0.7rem 1.3rem;
+		position: relative;
+		display: inline-flex;
+		background: #fff;
+		color: #050505;
+		text-decoration: none;
+		overflow: hidden;
+		isolation: isolate;
+	}
+
+	.sticky-nav__button-bg {
+		position: absolute;
+		inset: 0;
+		width: 2px;
+		background: #d4302f;
+		transition: width 350ms var(--ease-standard);
+		z-index: 0;
+	}
+
+	.sticky-nav__button:hover .sticky-nav__button-bg,
+	.sticky-nav__button:focus-visible .sticky-nav__button-bg {
+		width: 100%;
+	}
+
+	.sticky-nav__button:active .sticky-nav__button-bg {
+		background: color-mix(in srgb, #d4302f 80%, black);
+	}
+
+	.sticky-nav__button-edge {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: #fff;
+		opacity: 0;
+		z-index: 1;
+		transition: opacity 350ms var(--ease-standard);
+	}
+
+	.sticky-nav__button:hover .sticky-nav__button-edge,
+	.sticky-nav__button:focus-visible .sticky-nav__button-edge {
+		opacity: 1;
+	}
+
+	.sticky-nav__button-label {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+		transition: transform 150ms var(--ease-standard);
+	}
+
+	.sticky-nav__button-label::after {
+		content: attr(data-label);
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		padding: var(--btn-pad);
+		color: #fff;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 350ms var(--ease-standard);
+		pointer-events: none;
+	}
+
+	.sticky-nav__button:hover .sticky-nav__button-label::after,
+	.sticky-nav__button:focus-visible .sticky-nav__button-label::after {
+		clip-path: inset(0 0 0 0);
+	}
+
+	.sticky-nav__button:active .sticky-nav__button-label {
+		transform: scale(0.97);
+	}
+
+	.sticky-nav__burger {
+		all: unset;
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
+		width: 2.25rem;
+		height: 2.25rem;
+		cursor: pointer;
+		flex: none;
+	}
+
+	.sticky-nav__burger-bar {
+		display: block;
+		width: 1.35rem;
+		height: 2px;
+		background: #fff;
+		transition: transform 250ms var(--ease-standard), opacity 250ms var(--ease-standard);
+	}
+
+	.sticky-nav__burger[aria-expanded="true"] .sticky-nav__burger-bar:nth-child(1) {
+		transform: translateY(7px) rotate(45deg);
+	}
+
+	.sticky-nav__burger[aria-expanded="true"] .sticky-nav__burger-bar:nth-child(2) {
+		opacity: 0;
+	}
+
+	.sticky-nav__burger[aria-expanded="true"] .sticky-nav__burger-bar:nth-child(3) {
+		transform: translateY(-7px) rotate(-45deg);
+	}
+
+	.sticky-nav__mobile-panel {
+		position: fixed;
+		inset: 0;
+		z-index: 99;
+		display: none;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		background: var(--color-graphite);
+		opacity: 0;
+		visibility: hidden;
+		transform: translateX(100%);
+		transition:
+			opacity 380ms var(--ease-standard),
+			transform 380ms var(--ease-standard),
+			visibility 380ms;
+	}
+
+	.sticky-nav__mobile-panel::before {
+		content: "";
+		position: absolute;
+		top: var(--nav-height);
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: color-mix(in srgb, #fff 15%, transparent);
+	}
+
+	.sticky-nav__mobile-panel[data-open="true"] {
+		opacity: 1;
+		visibility: visible;
+		transform: translateX(0);
+	}
+
+	.sticky-nav__mobile-panel-scroll {
+		flex: 1;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: var(--space-5);
+		padding: calc(var(--nav-height) + 0.85rem) var(--space-5) var(--space-4);
+	}
+
+	.sticky-nav__mobile-panel-divisions {
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-4);
+		margin: 0;
+		padding: 0 0 var(--space-5);
+		width: 100%;
+		max-width: 22rem;
+		border-bottom: 1px solid color-mix(in srgb, #fff 15%, transparent);
+	}
+
+	.sticky-nav__mobile-panel-division {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: var(--space-3);
+		text-decoration: none;
+	}
+
+	.sticky-nav__mobile-panel-divisions li:last-child {
+		grid-column: 1 / -1;
+	}
+
+.sticky-nav__mobile-panel-division-bar {
+		display: block;
+		width: 2rem;
+		height: 3px;
+		margin-bottom: 0.6rem;
+		background: var(--division-color);
+	}
+
+	.sticky-nav__mobile-panel-division-name {
+		margin: 0;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #fff;
+	}
+
+	.sticky-nav__mobile-panel-primary {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	.sticky-nav__mobile-panel-primary a {
+		text-decoration: none;
+		color: color-mix(in srgb, #fff 80%, transparent);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: 0.85rem 0;
+		width: 100%;
+		max-width: 22rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.sticky-nav__mobile-panel-primary a:last-child {
+		border-bottom: none;
+	}
+
+	.sticky-nav__mobile-panel-primary a:hover,
+	.sticky-nav__mobile-panel-primary a:focus-visible {
+		color: #fff;
+	}
+
+@media (max-width: 1024px) {
+		.sticky-nav__links {
+			display: none;
+		}
+
+		.sticky-nav__button {
+			display: none;
+		}
+
+		.sticky-nav__burger {
+			display: flex;
+		}
+
+		.sticky-nav__mobile-panel {
+			display: flex;
+			overflow-y: auto;
+		}
+	}
+
+	@media (max-width: 640px) {
+		.sticky-nav {
+			padding: var(--space-3) clamp(1.25rem, 5vw, 3.5rem);
+			gap: var(--space-3);
+		}
+
+		.sticky-nav__mobile-panel-scroll {
+			padding-bottom: var(--space-3);
+		}
+
+		.sticky-nav__button {
+			display: none;
+		}
+
+		.sticky-nav__burger {
+			width: 2.75rem;
+			height: 2.75rem;
+		}
+
+		.sticky-nav__logo-word {
+			width: 4.5rem;
+		}
+
+		.sticky-nav__logo-sub-wrap {
+			width: 4.5rem;
+			height: calc(4.5rem * 61.499998 / 315);
+		}
+	}
+</style>
+
+<script>
+	const nav = document.getElementById("sticky-nav") as HTMLElement;
+	const hero = document.getElementById("hero") as HTMLElement | null;
+	const whatWeDo = document.getElementById("what-we-do") as HTMLElement | null;
+	const intro = document.getElementById("intro") as HTMLElement | null;
+	const idleDelayMs = 7000;
+
+	function lockPointY() {
+		return intro ? intro.offsetTop + intro.offsetHeight / 2 : Infinity;
+	}
+
+	const scrollThresholdPx = 50;
+	const heroBufferPx = 150;
+
+	let anchorY = window.scrollY;
+	let idleTimer: number | undefined;
+	let ticking = false;
+
+	function heroBottom() {
+		return hero ? hero.offsetHeight - heroBufferPx : 0;
+	}
+
+	function insideWhatWeDo(y: number) {
+		if (!whatWeDo) return false;
+		const top = whatWeDo.offsetTop;
+		return y >= top && y < top + whatWeDo.offsetHeight;
+	}
+
+	function show() {
+		nav.dataset.visible = "true";
+	}
+
+	function hide() {
+		nav.dataset.visible = "false";
+	}
+
+	function scheduleIdleReveal(y: number) {
+		window.clearTimeout(idleTimer);
+		// Suppress the idle auto-reveal while dwelling inside the What We Do
+		// scroll-jack section, where "staying still" is expected mid-sequence,
+		// not a signal the user wants the nav back. Resumes normally past it.
+		if (insideWhatWeDo(y)) return;
+		idleTimer = window.setTimeout(show, idleDelayMs);
+	}
+
+	function handleScroll() {
+		ticking = false;
+		const currentY = window.scrollY;
+		const pastHero = currentY > heroBottom();
+
+		if (currentY >= lockPointY()) {
+			window.clearTimeout(idleTimer);
+			show();
+			return;
+		}
+
+		if (!pastHero) {
+			hide();
+			anchorY = currentY;
+			window.clearTimeout(idleTimer);
+			return;
+		}
+
+		const diff = currentY - anchorY;
+		if (diff > scrollThresholdPx) {
+			hide();
+			anchorY = currentY;
+			scheduleIdleReveal(currentY);
+		} else if (diff < -scrollThresholdPx) {
+			show();
+			anchorY = currentY;
+			scheduleIdleReveal(currentY);
+		}
+	}
+
+	window.addEventListener(
+		"scroll",
+		() => {
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(handleScroll);
+		},
+		{ passive: true }
+	);
+
+	const logoCycleIntervalMs = 2600;
+	const logoWrap = nav.querySelector<HTMLElement>("[data-logo-cycle]");
+
+	if (logoWrap) {
+		const logoImgs = Array.from(logoWrap.querySelectorAll<HTMLImageElement>("[data-logo-img]"));
+		const order = (logoWrap.dataset.order ?? "").split(",").filter(Boolean);
+		let logoIndex = Number(logoWrap.dataset.startIndex ?? 0);
+
+		if (order.length > 1) {
+			window.setInterval(() => {
+				logoIndex = (logoIndex + 1) % order.length;
+				const id = order[logoIndex];
+				logoImgs.forEach((img) => (img.dataset.active = img.dataset.logoImg === id ? "true" : "false"));
+			}, logoCycleIntervalMs);
+		}
+	}
+
+	const dropdown = nav.querySelector<HTMLElement>("[data-dropdown]");
+	const dropdownTrigger = nav.querySelector<HTMLButtonElement>("[data-dropdown-trigger]");
+
+	function closeDropdown() {
+		if (!dropdown) return;
+		dropdown.dataset.open = "false";
+		dropdownTrigger?.setAttribute("aria-expanded", "false");
+	}
+
+	function toggleDropdown() {
+		if (!dropdown) return;
+		const isOpen = dropdown.dataset.open === "true";
+		dropdown.dataset.open = String(!isOpen);
+		dropdownTrigger?.setAttribute("aria-expanded", String(!isOpen));
+	}
+
+	dropdownTrigger?.addEventListener("click", (event) => {
+		event.stopPropagation();
+		toggleDropdown();
+	});
+
+	document.addEventListener("click", (event) => {
+		if (dropdown && !dropdown.contains(event.target as Node)) closeDropdown();
+	});
+
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") closeDropdown();
+	});
+
+	const burgerTrigger = nav.querySelector<HTMLButtonElement>("[data-burger-trigger]");
+	const mobilePanel = document.querySelector<HTMLElement>("[data-mobile-panel]");
+
+	function closeMobilePanel() {
+		if (!mobilePanel) return;
+		mobilePanel.dataset.open = "false";
+		burgerTrigger?.setAttribute("aria-expanded", "false");
+		document.body.style.overflow = "";
+	}
+
+	function toggleMobilePanel() {
+		if (!mobilePanel) return;
+		const isOpen = mobilePanel.dataset.open === "true";
+		mobilePanel.dataset.open = String(!isOpen);
+		burgerTrigger?.setAttribute("aria-expanded", String(!isOpen));
+		document.body.style.overflow = isOpen ? "" : "hidden";
+	}
+
+	burgerTrigger?.addEventListener("click", (event) => {
+		event.stopPropagation();
+		toggleMobilePanel();
+	});
+
+	mobilePanel?.addEventListener("click", (event) => {
+		if ((event.target as HTMLElement).tagName === "A") closeMobilePanel();
+	});
+
+	window.addEventListener("resize", () => {
+		if (window.innerWidth > 1024) closeMobilePanel();
+	});
+
+	window.addEventListener("pagehide", () => {
+		document.body.style.overflow = "";
+	});
+
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") closeMobilePanel();
+	});
+</script>

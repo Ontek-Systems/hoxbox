@@ -1,0 +1,50 @@
+---
+interface Props {
+	color?: string;
+	thickness?: number;
+	class?: string;
+}
+
+const { color = "currentColor", thickness = 2, class: className = "" } = Astro.props;
+---
+
+<span
+	class={`pencil-underline ${className}`}
+	style={`--pencil-color:${color}; --pencil-thickness:${thickness}px`}
+></span>
+
+<style>
+	.pencil-underline {
+		position: absolute;
+		left: 0;
+		right: 0;
+		bottom: -0.35em;
+		height: var(--pencil-thickness);
+		background: var(--pencil-color);
+		transform: scaleX(0);
+		transform-origin: left;
+		transition: background 300ms;
+		pointer-events: none;
+		will-change: transform;
+	}
+
+	.pencil-underline.is-visible {
+		transform: scaleX(1);
+		transition: transform 700ms var(--ease-standard, ease) 150ms, background 300ms;
+	}
+</style>
+
+<script>
+	const io = new IntersectionObserver(
+		(entries) => {
+			for (const entry of entries) {
+				if (!entry.isIntersecting) continue;
+				entry.target.classList.add("is-visible");
+				io.unobserve(entry.target);
+			}
+		},
+		{ threshold: 0.1, rootMargin: "0px 0px -10% 0px" },
+	);
+
+	document.querySelectorAll<HTMLElement>(".pencil-underline").forEach((node) => io.observe(node));
+</script>

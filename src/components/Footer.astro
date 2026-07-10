@@ -1,0 +1,341 @@
+---
+// Site footer: graphite full-bleed panel, three-column top row (contact / sitemap /
+// follow) over a giant edge-to-edge "HOXBOX" wordmark, matching the bold/oversized
+// footer style the client referenced. Contact details sourced from
+// docs/brand/company-profile.md and docs/brand/onboarding-brief.md.
+// Social platform for the `hoxboxdesignandbuild` handle is unconfirmed (see
+// design-principles.md "Open items") so it's shown as a handle, not a live link.
+// See docs/brand/section-build-standard.md.
+const year = new Date().getFullYear();
+
+// Quick links: Services & Products and Booking dropped until those pages exist.
+const sitePages = [
+	{ name: "Home", href: "/" },
+	{ name: "About Us", href: "/about" },
+	{ name: "Gallery", href: "/gallery" },
+	{ name: "Case Studies", href: "/case-studies" },
+];
+
+// Division one-liners sourced from docs/brand/company-profile.md pages 16-19.
+const divisions = [
+	{
+		name: "Design & Build",
+		slug: "design-build",
+		color: "var(--color-division-design-build)",
+		description: "Design, build and fit-out, managed in-house end to end.",
+	},
+	{
+		name: "Furniture",
+		slug: "furniture",
+		color: "var(--color-division-furniture)",
+		description: "Furniture consultation and FF&E procurement from UK and European wholesalers.",
+	},
+	{
+		name: "Joinery",
+		slug: "joinery",
+		color: "var(--color-division-joinery)",
+		description: "Bespoke joinery, manufactured and finished off-site before installation.",
+	},
+	{
+		name: "Plants",
+		slug: "plants",
+		color: "var(--color-division-plants)",
+		description: "Design-led faux planting that needs no maintenance.",
+	},
+	{
+		name: "Signage",
+		slug: "signage",
+		color: "var(--color-division-signage)",
+		description: "Custom interior signage, from lightboxes to wayfinding.",
+	},
+];
+---
+
+<footer class="site-footer">
+	<div class="site-footer__top">
+		<div class="site-footer__col site-footer__col--left">
+			<p class="site-footer__heading">Get in touch</p>
+			<a class="site-footer__link" href="mailto:hello@hoxboxdesignbuild.com">hello@hoxboxdesignbuild.com</a>
+			<a class="site-footer__link" href="tel:+447584281831">07584 281831</a>
+			<address class="site-footer__address">3rd Floor, 86&ndash;90 Paul Street, London, EC2A 4NE</address>
+		</div>
+
+		<div class="site-footer__col site-footer__col--links">
+			<p class="site-footer__heading site-footer__heading--center">Quick Links</p>
+			<nav class="site-footer__nav">
+				<a class="site-footer__link" href={sitePages[0].href}>{sitePages[0].name}</a>
+				<a class="site-footer__link" href={sitePages[1].href}>{sitePages[1].name}</a>
+				<a class="site-footer__link" href={sitePages[2].href}>{sitePages[2].name}</a>
+				<a class="site-footer__link" href={sitePages[3].href}>{sitePages[3].name}</a>
+				<a class="site-footer__link" href="#what-we-do">What We Do</a>
+				<a class="site-footer__link" href="#testimonials">Testimonials</a>
+			</nav>
+		</div>
+
+		<div class="site-footer__col site-footer__col--right">
+			<p class="site-footer__heading">Follow</p>
+			<p class="site-footer__handle">@hoxboxdesignandbuild</p>
+		</div>
+	</div>
+
+	<div class="site-footer__wordmark" aria-hidden="true">HOXBOX</div>
+
+	<div class="site-footer__divisions-row">
+		<ul class="site-footer__divisions">
+			{
+				divisions.map((division) => (
+					<li class="site-footer__division">
+						<a class="site-footer__division-link" href={`/${division.slug}`} style={`--division-color:${division.color};`}>
+							<span class="site-footer__division-bar" aria-hidden="true" />
+							<p class="site-footer__division-name">{division.name}</p>
+							<p class="site-footer__division-description">{division.description}</p>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+
+	<div class="site-footer__bottom-row">
+		<div class="site-footer__bottom">
+			<p class="site-footer__copyright">&copy; {year} Hox Box Design &amp; Build. All rights reserved.</p>
+		</div>
+	</div>
+</footer>
+
+<style>
+	.site-footer {
+		box-sizing: border-box;
+		background: var(--color-graphite);
+		color: #fff;
+		overflow: hidden;
+		position: sticky;
+		top: 100vh;
+		z-index: 150;
+	}
+
+	.site-footer__top {
+		display: grid;
+		grid-template-columns: 1.4fr 1fr 1fr;
+		gap: var(--space-6);
+		max-width: var(--content-width);
+		margin: 0 auto;
+		padding: var(--section-pad-y) clamp(1.85rem, 4.5vw, 3.85rem) var(--space-6);
+	}
+
+	.site-footer__heading {
+		font-family: var(--font-display);
+		font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: #fff;
+		margin: 0 0 var(--space-2);
+	}
+
+	.site-footer__heading--center {
+		text-align: center;
+	}
+
+	.site-footer__col--links {
+		text-align: center;
+	}
+
+	.site-footer__col--right {
+		text-align: right;
+		margin-right: -18px;
+	}
+
+	.site-footer__col--left {
+		margin-left: -18px;
+	}
+
+	.site-footer__link,
+	.site-footer__address,
+	.site-footer__handle {
+		display: block;
+		font-size: calc(var(--text-lg) * 0.85);
+		font-style: normal;
+		color: color-mix(in srgb, #fff 70%, transparent);
+		text-decoration: none;
+		margin: 0 0 var(--space-2);
+	}
+
+	.site-footer__link {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
+		text-decoration-color: color-mix(in srgb, #fff 35%, transparent);
+		transition: color 250ms var(--ease-standard), text-decoration-color 250ms var(--ease-standard);
+	}
+
+	.site-footer__link:hover,
+	.site-footer__link:focus-visible {
+		color: #fff;
+		text-decoration-color: var(--color-division-design-build);
+	}
+
+	.site-footer__nav {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		column-gap: var(--space-4);
+		row-gap: calc(var(--space-2) * 1.2);
+		align-items: start;
+		justify-items: center;
+	}
+
+	.site-footer__nav .site-footer__link {
+		margin-bottom: 0;
+	}
+
+	.site-footer__wordmark {
+		display: flex;
+		justify-content: center;
+		font-family: var(--font-display);
+		font-size: clamp(5.5rem, 17vw, 15rem);
+		line-height: 0.82;
+		letter-spacing: -0.02em;
+		text-transform: uppercase;
+		color: color-mix(in srgb, #fff 92%, transparent);
+		white-space: nowrap;
+		margin: 0 0 var(--space-6);
+		padding: var(--section-pad-y) clamp(1rem, 2vw, 2rem) 0;
+		user-select: none;
+	}
+
+	.site-footer__divisions-row {
+		border-top: 1px solid color-mix(in srgb, #fff 15%, transparent);
+	}
+
+	.site-footer__divisions {
+		display: grid;
+		grid-template-columns: repeat(5, minmax(0, 1fr));
+		gap: var(--space-5);
+		max-width: var(--content-width);
+		margin: 0 auto;
+		padding: var(--space-6) clamp(1.85rem, 4.5vw, 3.85rem);
+		list-style: none;
+	}
+
+	.site-footer__division-link {
+		position: relative;
+		display: block;
+		padding-top: var(--space-3);
+		text-decoration: none;
+		transform: translateY(0);
+		transition: transform 300ms var(--ease-standard);
+	}
+
+	.site-footer__division-link:hover,
+	.site-footer__division-link:focus-visible {
+		transform: translateY(-4px);
+	}
+
+	.site-footer__division-bar {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 2rem;
+		height: 3px;
+		background: var(--division-color);
+		transition: width 300ms var(--ease-standard);
+	}
+
+	.site-footer__division-link:hover .site-footer__division-bar,
+	.site-footer__division-link:focus-visible .site-footer__division-bar {
+		width: 100%;
+	}
+
+	.site-footer__division-name {
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #fff;
+		margin: 0 0 0.5rem;
+		transition: color 300ms var(--ease-standard);
+	}
+
+	.site-footer__division-link:hover .site-footer__division-name,
+	.site-footer__division-link:focus-visible .site-footer__division-name {
+		color: var(--division-color);
+	}
+
+	.site-footer__division-description {
+		font-size: var(--text-xs);
+		line-height: var(--leading-normal);
+		color: color-mix(in srgb, #fff 55%, transparent);
+		margin: 0;
+	}
+
+	.site-footer__bottom-row {
+		border-top: 1px solid color-mix(in srgb, #fff 15%, transparent);
+	}
+
+	.site-footer__bottom {
+		max-width: var(--content-width);
+		margin: 0 auto;
+		padding: var(--space-6) clamp(1.85rem, 4.5vw, 3.85rem);
+		text-align: center;
+	}
+
+	.site-footer__copyright {
+		font-size: var(--text-xs);
+		color: color-mix(in srgb, #fff 55%, transparent);
+		margin: 0;
+	}
+
+	@media (max-width: 1024px) {
+		.site-footer {
+			display: flex;
+			flex-direction: column;
+		}
+
+		.site-footer__top {
+			grid-template-columns: 1fr;
+			gap: var(--space-5);
+			padding: var(--space-6) var(--space-4) var(--space-6);
+			order: 2;
+		}
+
+		.site-footer__wordmark {
+			order: 1;
+			min-width: 0;
+			font-size: calc((100vw - 3rem) / 4.3);
+			line-height: 0.85;
+			letter-spacing: 0;
+			width: 100%;
+			white-space: nowrap;
+			padding: var(--space-6) var(--space-4) 0;
+			margin: 0;
+		}
+
+		.site-footer__divisions-row {
+			order: 3;
+		}
+
+		.site-footer__bottom-row {
+			order: 4;
+		}
+
+		.site-footer__divisions {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			padding: var(--space-6) var(--space-4);
+		}
+
+		.site-footer__bottom {
+			padding: var(--space-6) var(--space-4);
+		}
+	}
+
+	@media (max-width: 640px) {
+		.site-footer__col--left,
+		.site-footer__col--right {
+			text-align: center;
+			margin-left: 0;
+			margin-right: 0;
+		}
+
+		.site-footer__heading {
+			text-align: center;
+		}
+	}
+</style>

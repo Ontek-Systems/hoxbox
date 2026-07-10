@@ -1,0 +1,359 @@
+---
+import PencilUnderline from "./PencilUnderline.astro";
+
+// Gallery: five equal-width division panels. Design & Build is the default
+// active panel (full colour, expanded, label visible); as the user scrolls,
+// whichever panel is nearest the centre of the viewport becomes active
+// instead and cross-fades through that division's images (same timing model
+// as Hero.astro's division switch). Every other panel drops to greyscale and
+// collapses, but its name stays visible next to the colour bar either way.
+// Panels are not clickable/tappable — display only.
+// See docs/brand/section-build-standard.md.
+const divisions = [
+	{
+		key: "design-build",
+		name: "Design & Build",
+		color: "var(--color-division-design-build)",
+		images: [
+			"/images/Design & Build/Design & Build_170.webp",
+			"/images/Design & Build/Design & Build_95.webp",
+			"/images/Design & Build/Design & Build_133.webp",
+			"/images/Design & Build/Design & Build_148.webp",
+			"/images/Design & Build/Design & Build_185.webp",
+		],
+	},
+	{
+		key: "furniture",
+		name: "Furniture",
+		color: "var(--color-division-furniture)",
+		images: [
+			"/images/Furniture/Furniture_53.webp",
+			"/images/Furniture/Furniture_18.webp",
+			"/images/Furniture/Furniture_35.webp",
+			"/images/Furniture/Furniture_50.webp",
+		],
+	},
+	{
+		key: "joinery",
+		name: "Joinery",
+		color: "var(--color-division-joinery)",
+		images: [
+			"/images/Joinery/Joinery_5.webp",
+			"/images/Joinery/Joinery_20.webp",
+			"/images/Joinery/Joinery_35.webp",
+			"/images/Joinery/Joinery_18.webp",
+		],
+	},
+	{
+		key: "signage",
+		name: "Signage",
+		color: "var(--color-division-signage)",
+		images: [
+			"/images/Signage/Signage_3.webp",
+			"/images/Signage/Signage_12.webp",
+			"/images/Signage/Signage_25.webp",
+		],
+	},
+	{
+		key: "plants",
+		name: "Plants",
+		color: "var(--color-division-plants)",
+		images: [
+			"/images/Plants/Plants_3.webp",
+			"/images/Plants/Plants_8.webp",
+			"/images/Plants/Plants_17.webp",
+		],
+	},
+];
+---
+
+<div class="gallery__divider" aria-hidden="true"></div>
+
+<section class="gallery" id="gallery">
+	<div class="gallery__header">
+		<p class="gallery__eyebrow">
+			<span>The work</span><PencilUnderline color="var(--color-division-design-build)" thickness={2} />
+		</p>
+		<h2 class="gallery__title">One team, five disciplines</h2>
+		<p class="gallery__subtitle">
+			Scroll to see each discipline come to life.
+		</p>
+	</div>
+
+	<div class="gallery__panels" data-gallery-panels>
+		{
+			divisions.map((division) => (
+				<div
+					class:list={["gallery__panel", { "is-active": division.key === "design-build" }]}
+					data-gallery-panel={division.key}
+					style={`--division-color:${division.color};`}
+				>
+					<span class="gallery__panel-stack" data-gallery-stack>
+						{division.images.map((image, i) => (
+							<img
+								class="gallery__panel-image"
+								class:list={[{ "is-current": i === 0 }]}
+								src={image}
+								alt={`${division.name} project by Hox Box`}
+								loading="lazy"
+							/>
+						))}
+					</span>
+					<span class="gallery__panel-scrim" aria-hidden="true" />
+					<span class="gallery__panel-label">
+						<span class="gallery__panel-label-bar" aria-hidden="true" />
+						<span class="gallery__panel-label-text">{division.name}</span>
+					</span>
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<style>
+	.gallery__divider {
+		height: 1px;
+		width: 100%;
+		background: linear-gradient(
+			to right,
+			var(--color-bg) 0%,
+			color-mix(in srgb, var(--color-graphite) 60%, var(--color-bg)) 50%,
+			var(--color-bg) 100%
+		);
+	}
+
+	.gallery {
+		box-sizing: border-box;
+		background: var(--color-bg-light);
+		color: var(--color-text);
+		padding-bottom: var(--section-pad-y);
+	}
+
+	.gallery__header {
+		max-width: 40rem;
+		margin: 0 auto;
+		padding: var(--section-pad-y) var(--space-4) var(--space-6);
+		text-align: center;
+	}
+
+	.gallery__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.207em;
+		text-transform: uppercase;
+		color: var(--color-text);
+		margin: 0 0 var(--space-4);
+	}
+
+	.gallery__title {
+		font-family: var(--font-display);
+		font-size: clamp(1.9rem, 3.2vw, var(--text-3xl));
+		text-transform: uppercase;
+		line-height: var(--leading-tight);
+		color: var(--color-text);
+		margin: 0 0 var(--space-3);
+	}
+
+	.gallery__subtitle {
+		font-size: calc(var(--text-lg) * 0.85);
+		color: var(--color-text-muted);
+		line-height: var(--leading-normal);
+		margin: 0;
+	}
+
+	.gallery__panels {
+		display: flex;
+		gap: var(--space-3);
+		height: clamp(36rem, 57vw, 48rem);
+		max-width: 1440px;
+		margin: 0 auto;
+		padding: 0 clamp(2rem, 4.5vw, 4rem);
+		box-sizing: border-box;
+	}
+
+	.gallery__panel {
+		position: relative;
+		flex: 1 1 0;
+		min-width: 0;
+		border: 0;
+		padding: 0;
+		margin: 0;
+		overflow: hidden;
+		background: var(--color-graphite);
+		transition: flex-grow 550ms var(--ease-standard);
+	}
+
+	.gallery__panel.is-active {
+		flex-grow: 2.4;
+	}
+
+	.gallery__panel-stack {
+		position: absolute;
+		inset: 0;
+	}
+
+	.gallery__panel-image {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		opacity: 0;
+		filter: saturate(1.25) grayscale(1) brightness(0.75);
+		transition: opacity 400ms var(--ease-standard), filter 800ms var(--ease-standard);
+	}
+
+	.gallery__panel-image.is-current {
+		opacity: 1;
+	}
+
+	.gallery__panel.is-active .gallery__panel-image {
+		filter: saturate(1.25) grayscale(0) brightness(1.1);
+	}
+
+	.gallery__panel-scrim {
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(to top, rgba(10, 9, 8, 0.8) 0%, rgba(10, 9, 8, 0.15) 45%, rgba(10, 9, 8, 0.35) 100%);
+		transition: background 450ms var(--ease-standard);
+	}
+
+	.gallery__panel.is-active .gallery__panel-scrim {
+		background: linear-gradient(to top, rgba(10, 9, 8, 0.75) 0%, rgba(10, 9, 8, 0) 45%);
+	}
+
+	.gallery__panel-label {
+		position: absolute;
+		left: var(--space-3);
+		bottom: var(--space-3);
+		right: var(--space-3);
+		z-index: 2;
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		overflow: hidden;
+	}
+
+	.gallery__panel-label-bar {
+		width: 1.4rem;
+		height: 3px;
+		background: var(--division-color);
+		flex-shrink: 0;
+		transition: width 350ms var(--ease-standard);
+	}
+
+	.gallery__panel.is-active .gallery__panel-label-bar {
+		width: 2.4rem;
+	}
+
+	.gallery__panel-label-text {
+		font-family: var(--font-display);
+		font-size: clamp(0.85rem, 1.3vw, 1.15rem);
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
+		color: #fff;
+		white-space: nowrap;
+		opacity: 1;
+		max-width: 20rem;
+		transition: opacity 250ms var(--ease-standard), max-width 450ms var(--ease-standard);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.gallery__panel,
+		.gallery__panel-image,
+		.gallery__panel-label-bar {
+			transition: none !important;
+		}
+	}
+
+	@media (max-width: 1024px) {
+		.gallery__panels {
+			flex-direction: column;
+			height: auto;
+			gap: var(--space-3);
+		}
+
+		.gallery__panel,
+		.gallery__panel.is-active {
+			flex: 0 0 auto;
+			width: 100%;
+			height: 12.6rem;
+			transition: height 550ms var(--ease-standard);
+		}
+
+		.gallery__panel.is-active {
+			height: 22rem;
+		}
+	}
+</style>
+
+<script>
+	const panels = Array.from(document.querySelectorAll<HTMLElement>("[data-gallery-panel]"));
+	const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	const defaultActiveKey = "design-build";
+
+	// Cross-fade cycle: short delay before it starts, then a new image every
+	// cycleMs with a 400ms cross-fade. Tied to whichever panel is active, not
+	// just whichever is hovered, so the default/resting panel (Design & Build)
+	// keeps cycling on its own too.
+	const startDelayMs = 80;
+	const cycleMs = 1380;
+
+	let cycleTimer: ReturnType<typeof setInterval> | null = null;
+	let startTimer: ReturnType<typeof setTimeout> | null = null;
+
+	function stopCycle() {
+		if (startTimer) clearTimeout(startTimer);
+		if (cycleTimer) clearInterval(cycleTimer);
+		startTimer = null;
+		cycleTimer = null;
+	}
+
+	function startCycleFor(panel: HTMLElement) {
+		stopCycle();
+		const images = Array.from(panel.querySelectorAll<HTMLImageElement>(".gallery__panel-image"));
+		if (images.length < 2 || reduceMotion) return;
+
+		let current = images.findIndex((img) => img.classList.contains("is-current"));
+		if (current < 0) current = 0;
+
+		startTimer = setTimeout(() => {
+			cycleTimer = setInterval(() => {
+				images[current].classList.remove("is-current");
+				current = (current + 1) % images.length;
+				images[current].classList.add("is-current");
+			}, cycleMs);
+		}, startDelayMs);
+	}
+
+	function setActivePanel(key: string) {
+		panels.forEach((panel) => {
+			panel.classList.toggle("is-active", panel.dataset.galleryPanel === key);
+		});
+		const activePanel = panels.find((panel) => panel.dataset.galleryPanel === key);
+		if (activePanel) startCycleFor(activePanel);
+	}
+
+	setActivePanel(defaultActiveKey);
+
+	// The panel nearest the centre of the viewport becomes active as the user
+	// scrolls past it — no hover, no click required to open a panel.
+	if (!reduceMotion) {
+		const scrollObserver = new IntersectionObserver(
+			(entries) => {
+				const visible = entries.filter((entry) => entry.isIntersecting);
+				if (!visible.length) return;
+				const closest = visible.reduce((best, entry) =>
+					Math.abs(entry.boundingClientRect.top) < Math.abs(best.boundingClientRect.top) ? entry : best
+				);
+				const key = (closest.target as HTMLElement).dataset.galleryPanel;
+				if (key) setActivePanel(key);
+			},
+			{ rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+		);
+		panels.forEach((panel) => scrollObserver.observe(panel));
+	}
+</script>

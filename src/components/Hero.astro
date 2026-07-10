@@ -1,0 +1,1574 @@
+---
+import PencilUnderline from "./PencilUnderline.astro";
+
+// Locked division accent colors — do not change without sign-off.
+// Design & Build is the brand's own fixed red; the other four are
+// sampled directly from that division's logo wordmark fill and must
+// stay in sync with the SVGs in public/logo/.
+//   design-build: #d4302f
+//   furniture:     #ed4693
+//   joinery:       #f6e31b
+//   plants:        #32b62b
+//   signage:       #16ace4
+const navDropdownOrder = ["design-build", "furniture", "joinery", "plants", "signage"];
+
+// Short one-liners for the mobile menu's division grid — sourced verbatim from
+// Footer.astro so the two stay in sync without importing state across components.
+const divisions = [
+	{
+		id: "design-build",
+		accent: "#d4302f",
+		image: "/images/Hero Images/design & build_hero.jpg",
+			logoSub: "/logo/design-build-white.svg",
+		eyebrow: "HOX BOX DESIGN & BUILD",
+		title: "Integrity, reliability, and performance.",
+		body: "One in-house team, every stage covered, pre-construction to handover, delivered around 30% quicker than the traditional route, fuss-free from start to finish.",
+		cta: "View our projects",
+		href: "/projects",
+	},
+	{
+		id: "furniture",
+		accent: "#ed4693",
+		image: "/images/Hero Images/Furniture_hero.jpg",
+		imagePosition: "75% center",
+			logoSub: "/logo/furniture.svg",
+		eyebrow: "HOX BOX FURNITURE",
+		title: "Furniture, sourced with care",
+		body: "Direct contact with wholesalers across the UK and Europe, a personable, transparent service from selection to installation.",
+		cta: "Explore furniture",
+		href: "/furniture",
+	},
+	{
+		id: "plants",
+		accent: "#32b62b",
+		image: "/images/Hero Images/plants_hero.jpg",
+			logoSub: "/logo/plants.svg",
+		eyebrow: "HOX BOX PLANTS",
+		title: "Greenery that needs no upkeep",
+		body: "A design-led, no-maintenance alternative to living plants, from 2m trees to small counter displays.",
+		cta: "Browse plants",
+		href: "/plants",
+	},
+	{
+		id: "joinery",
+		accent: "#f6e31b",
+		image: "/images/Hero Images/Joinery_hero.jpg",
+			logoSub: "/logo/joinery.svg",
+		eyebrow: "HOX BOX JOINERY",
+		title: "Bespoke joinery, built in-house",
+		body: "Kitchens, wardrobes, doors and specialist cabinetry, manufactured, assembled and finished off-site before we install.",
+		cta: "See our joinery",
+		href: "/joinery",
+	},
+	{
+		id: "signage",
+		accent: "#16ace4",
+		image: "/images/Hero Images/Signage_hero.jpg",
+			logoSub: "/logo/signage.svg",
+		eyebrow: "HOX BOX SIGNAGE",
+		title: "Signage that speaks for your brand",
+		body: "Lightboxes, acrylic lettering, vinyl graphics and wayfinding, designed in-house and fitted by our own team.",
+		cta: "View signage",
+		href: "/signage",
+	},
+];
+---
+
+<section
+	class="hero"
+	id="hero"
+	data-active={divisions[0].id}
+	data-divisions-json={JSON.stringify(divisions)}
+	style={`--accent:${divisions[0].accent}`}
+>
+	<div class="hero__bg">
+		{divisions.map((d, i) => (
+			<div
+				class="hero__slide"
+				data-slide={d.id}
+				data-active={i === 0 ? "true" : "false"}
+				style={`--slide-color:${d.accent};--slide-image:url("${d.image}");--slide-position:${d.imagePosition ?? "center"}`}
+			>
+			</div>
+		))}
+	</div>
+	<div class="hero__edge-top"></div>
+	<div class="hero__edge-bottom"></div>
+
+	<header class="hero__nav">
+		<a class="hero__logo" href="/">
+			<img class="hero__logo-word" src="/logo/hoxbox-main-white.svg" alt="Hox Box" />
+			<span class="hero__logo-sub" data-logo-sub>
+				{divisions.map((d, i) => (
+					<img
+						class="hero__logo-sub-img"
+						data-logo-img={d.id}
+						data-active={i === 0 ? "true" : "false"}
+						src={d.logoSub}
+						alt={d.eyebrow}
+					/>
+				))}
+			</span>
+		</a>
+		<nav class="hero__nav-links" aria-label="Primary">
+			<div class="hero__nav-group hero__nav-group--left">
+				<a href="/about">About Us</a>
+				<a href="/gallery">Gallery</a>
+			</div>
+			<div class="hero__dropdown" data-dropdown>
+				<button
+					type="button"
+					class="hero__dropdown-trigger"
+					aria-haspopup="true"
+					aria-expanded="false"
+					data-dropdown-trigger
+				>
+					What We Do
+					<span class="hero__dropdown-caret" aria-hidden="true"></span>
+				</button>
+				<div class="hero__dropdown-panel" role="menu">
+					{navDropdownOrder.map((id) => {
+						const d = divisions.find((division) => division.id === id)!;
+						return (
+							<a
+								href={d.href}
+								role="menuitem"
+								class="hero__dropdown-item"
+								style={`--item-accent:${d.accent}`}
+							>
+								<span class="hero__dropdown-swatch" aria-hidden="true"></span>
+								{d.eyebrow.replace("HOX BOX ", "")}
+							</a>
+						);
+					})}
+				</div>
+			</div>
+			<div class="hero__nav-group hero__nav-group--right">
+				<a href="/testimonials">Testimonials</a>
+				<a href="/case-studies">Case Studies</a>
+			</div>
+		</nav>
+		<a class="hero__button hero__cta-nav" href="/contact">
+			<span class="hero__button-bg" aria-hidden="true"></span>
+			<span class="hero__button-edge" aria-hidden="true"></span>
+			<span class="hero__button-label" data-label="Get in touch">Get in touch</span>
+		</a>
+
+		<button
+			type="button"
+			class="hero__burger"
+			aria-haspopup="true"
+			aria-expanded="false"
+			aria-label="Open menu"
+			data-burger-trigger
+		>
+			<span class="hero__burger-bar"></span>
+			<span class="hero__burger-bar"></span>
+			<span class="hero__burger-bar"></span>
+		</button>
+	</header>
+
+	<div class="hero__mobile-panel" data-mobile-panel role="menu">
+		<div class="hero__mobile-panel-scroll">
+			<nav class="hero__mobile-panel-primary" aria-label="Secondary">
+				<a href="/about" role="menuitem">About Us</a>
+				<a href="/gallery" role="menuitem">Gallery</a>
+				<a href="/testimonials" role="menuitem">Testimonials</a>
+				<a href="/case-studies" role="menuitem">Case Studies</a>
+				<a href="/contact" role="menuitem" class="hero__mobile-panel-cta">Get in touch</a>
+			</nav>
+
+			<ul class="hero__mobile-panel-divisions">
+				{navDropdownOrder.map((id) => {
+					const d = divisions.find((division) => division.id === id)!;
+					return (
+						<li>
+							<a href={d.href} role="menuitem" class="hero__mobile-panel-division" style={`--division-color:${d.accent}`}>
+								<span class="hero__mobile-panel-division-bar" aria-hidden="true"></span>
+								<p class="hero__mobile-panel-division-name">{d.eyebrow.replace("HOX BOX ", "")}</p>
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</div>
+	</div>
+
+	<div class="hero__content">
+		<div class="hero__copy" data-copy>
+			<div class="hero__copy-text">
+				<p class="hero__eyebrow">
+					<span data-field="eyebrow">{divisions[0].eyebrow}</span><PencilUnderline color="var(--accent)" thickness={2} />
+				</p>
+				<h1 class="hero__title" data-field="title">{divisions[0].title}</h1>
+				<p class="hero__body" data-field="body">{divisions[0].body}</p>
+			</div>
+			<a class="hero__button" data-field="cta" href={divisions[0].href}>
+				<span class="hero__button-bg" aria-hidden="true"></span>
+				<span class="hero__button-edge" aria-hidden="true"></span>
+				<span class="hero__button-label" data-field="cta-label" data-label={divisions[0].cta}>{divisions[0].cta}</span>
+			</a>
+		</div>
+	</div>
+
+	<div class="hero__footer">
+		<div class="hero__mobile-indicator" data-mobile-indicator>
+			<span class="hero__mobile-indicator-line"></span>
+			<div class="hero__mobile-indicator-row">
+				<span class="hero__mobile-indicator-label" data-field="mobile-label">{divisions[0].eyebrow.replace("HOX BOX ", "")}</span>
+				<a class="hero__mobile-indicator-arrow" data-field="mobile-arrow" href={divisions[0].href} aria-label={`Go to ${divisions[0].eyebrow}`}>
+					<span aria-hidden="true">&#8599;</span>
+				</a>
+			</div>
+		</div>
+
+		<div class="hero__divisions" data-divisions>
+			<div class="hero__divisions-track">
+				<span class="hero__divisions-line"></span>
+				<span class="hero__indicator" data-indicator></span>
+			</div>
+			<ul class="hero__division-list">
+				{divisions.map((d, i) => (
+					<li
+						data-item={d.id}
+						data-pinned={i === 0 ? "true" : "false"}
+						style={`--fill:${i === 0 ? 1 : 0};--arrow-fill:${i === 0 ? 1 : 0}`}
+					>
+						<div class="hero__division-inner">
+							<button
+								type="button"
+								class="hero__division-btn"
+								data-division={d.id}
+								data-index={i}
+								aria-current={i === 0 ? "true" : "false"}
+							>
+								<span class="hero__division-label">{d.eyebrow.replace("HOX BOX ", "")}</span>
+							</button>
+							<a
+								class="hero__division-arrow"
+								href={d.href}
+								data-arrow={d.id}
+								aria-label={`Go to ${d.eyebrow}`}
+								tabindex="-1"
+							>
+								<span class="hero__division-arrow-glyph">&#8599;</span>
+							</a>
+						</div>
+					</li>
+				))}
+			</ul>
+		</div>
+
+		<div class="hero__scroll">
+			<span class="hero__scroll-line"></span>
+			<span>Scroll to discover more</span>
+		</div>
+	</div>
+</section>
+
+<style>
+	@property --accent {
+		syntax: "<color>";
+		inherits: true;
+		initial-value: #d4302f;
+	}
+
+	.hero {
+		--hero-pad-x: clamp(1.5rem, 4vw, 55px);
+		--hero-transition: 550ms;
+		--accent: #d4302f;
+		position: relative;
+		display: grid;
+		grid-template-rows: auto 1fr auto;
+		min-height: 100svh;
+		overflow: hidden;
+		background: #050505;
+		color: #fff;
+		transition: --accent var(--hero-transition) var(--ease-standard);
+	}
+
+	.hero__bg {
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+	}
+
+	.hero__slide {
+		position: absolute;
+		inset: 0;
+		opacity: 0;
+		transform: scale(1.045);
+		background: var(--slide-image) var(--slide-position, center) / cover no-repeat;
+		transition:
+			opacity calc(var(--hero-transition) * 1.4) var(--ease-standard),
+			transform calc(var(--hero-transition) * 1.4) var(--ease-standard);
+	}
+
+	.hero__slide[data-active="true"] {
+		opacity: 1;
+		transform: scale(1);
+	}
+
+	.hero__edge-top {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 160px;
+		z-index: 1;
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0.75) 0%, rgba(0, 0, 0, 0.35) 45%, rgba(0, 0, 0, 0) 100%);
+		pointer-events: none;
+	}
+
+	.hero__edge-bottom {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 250px;
+		z-index: 1;
+		background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 45%, rgba(0, 0, 0, 0) 100%);
+		pointer-events: none;
+	}
+
+	.hero__nav {
+		position: relative;
+		z-index: 5;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-4) var(--hero-pad-x) 0;
+	}
+
+	.hero__logo {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.35rem;
+		text-decoration: none;
+	}
+
+	.hero__logo-word {
+		display: block;
+		width: 6.5rem;
+		height: auto;
+	}
+
+	.hero__logo-sub {
+		display: grid;
+		justify-items: center;
+		width: 6.5rem;
+	}
+
+	.hero__logo-sub-img {
+		--logo-scale: 1;
+		--logo-shift-x: 0%;
+		grid-area: 1 / 1;
+		align-self: start;
+		justify-self: center;
+		transform-origin: top center;
+		width: 100%;
+		height: auto;
+		opacity: 0;
+		transform: translate(var(--logo-shift-x), -3px) scale(var(--logo-scale));
+		transition:
+			opacity 400ms var(--ease-standard),
+			transform 400ms var(--ease-standard);
+	}
+
+	.hero__logo-sub-img[data-logo-img="furniture"] {
+		--logo-scale: 1;
+	}
+
+	/* Compensate for uneven right-padding baked into these SVG exports —
+	   ink is flush to the left edge but doesn't reach the right edge,
+	   so it renders slightly left of true center. Measured from path
+	   bounding boxes, shift = half the missing right-padding. */
+	.hero__logo-sub-img[data-logo-img="design-build"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.39%;
+	}
+
+	.hero__logo-sub-img[data-logo-img="joinery"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.33%;
+	}
+
+	.hero__logo-sub-img[data-logo-img="plants"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.2%;
+	}
+
+	.hero__logo-sub-img[data-logo-img="signage"] {
+		--logo-scale: 1.02;
+		--logo-shift-x: 0.35%;
+	}
+
+	.hero__logo-sub-img[data-active="true"] {
+		opacity: 1;
+		transform: translate(var(--logo-shift-x), 0) scale(var(--logo-scale));
+		transition-delay: 400ms;
+	}
+
+	.hero__nav-links {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		align-items: center;
+		flex: 1;
+		gap: var(--space-4);
+		font-size: var(--text-xs);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.hero__nav-group {
+		display: flex;
+		align-items: center;
+		gap: var(--space-4);
+	}
+
+	.hero__nav-group--left {
+		justify-content: flex-end;
+	}
+
+	.hero__nav-group--right {
+		justify-content: flex-start;
+	}
+
+	.hero__nav-links a {
+		text-decoration: none;
+		color: rgba(255, 255, 255, 0.8);
+		transition: color var(--hero-transition) var(--ease-standard);
+	}
+
+	.hero__nav-links a:hover {
+		color: var(--accent);
+	}
+
+	.hero__dropdown {
+		position: relative;
+		justify-self: center;
+	}
+
+	.hero__dropdown-trigger {
+		all: unset;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4rem;
+		cursor: pointer;
+		font: inherit;
+		color: rgba(255, 255, 255, 0.8);
+		transition: color var(--hero-transition) var(--ease-standard);
+	}
+
+	.hero__dropdown-trigger:hover,
+	.hero__dropdown[data-open="true"] .hero__dropdown-trigger {
+		color: var(--accent);
+	}
+
+	.hero__dropdown-caret {
+		width: 7px;
+		height: 7px;
+		border-right: 1.5px solid currentColor;
+		border-bottom: 1.5px solid currentColor;
+		transform: rotate(45deg) translateY(-2px);
+		transition: transform 250ms var(--ease-standard);
+	}
+
+	.hero__dropdown[data-open="true"] .hero__dropdown-caret {
+		transform: rotate(-135deg) translateY(-1px);
+	}
+
+	.hero__dropdown-panel {
+		position: absolute;
+		top: calc(100% + 1.1rem);
+		left: 50%;
+		transform: translate(-50%, 8px);
+		display: flex;
+		flex-direction: column;
+		min-width: 12rem;
+		padding: 0.6rem 0;
+		background: #0a0a0a;
+		border: 1px solid rgba(255, 255, 255, 0.12);
+		border-radius: var(--radius-sm);
+		opacity: 0;
+		visibility: hidden;
+		pointer-events: none;
+		transition:
+			opacity 200ms var(--ease-standard),
+			transform 200ms var(--ease-standard),
+			visibility 200ms;
+	}
+
+	.hero__dropdown[data-open="true"] .hero__dropdown-panel {
+		opacity: 1;
+		visibility: visible;
+		transform: translate(-50%, 0);
+		pointer-events: auto;
+	}
+
+	.hero__dropdown-item {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		padding: 0.65rem 1.1rem;
+		font-size: var(--text-xs);
+		font-weight: 600;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		text-decoration: none;
+		color: rgba(255, 255, 255, 0.8);
+		transition: color 200ms var(--ease-standard);
+	}
+
+	.hero__dropdown-item:hover,
+	.hero__dropdown-item:focus-visible {
+		color: var(--item-accent);
+	}
+
+	.hero__dropdown-swatch {
+		width: 7px;
+		height: 7px;
+		border-radius: 50%;
+		background: var(--item-accent);
+		flex: none;
+	}
+
+	.hero__cta-nav {
+		--btn-pad: 0.7rem 1.3rem;
+	}
+
+	.hero__content {
+		position: relative;
+		z-index: 2;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		max-width: 1440px;
+		margin: 0;
+		padding: var(--space-4) var(--hero-pad-x);
+	}
+
+	.hero__copy {
+		max-width: 40rem;
+		transition:
+			opacity 600ms var(--ease-standard),
+			transform 600ms var(--ease-standard);
+	}
+
+	.hero__copy.is-changing {
+		opacity: 0;
+		transform: translateY(10px);
+		transition:
+			opacity 400ms var(--ease-standard),
+			transform 400ms var(--ease-standard);
+	}
+
+	.hero__copy-text {
+		filter: drop-shadow(0 7px 24px rgba(0, 0, 0, 0.54));
+	}
+
+	.hero__eyebrow {
+		position: relative;
+		display: inline-block;
+		width: fit-content;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.207em;
+		text-transform: uppercase;
+		color: #fff;
+		margin-bottom: 1.4rem;
+	}
+
+	.hero__eyebrow:hover :global(.pencil-underline) {
+		background: currentColor;
+	}
+
+	.hero__title {
+		font-family: var(--font-display);
+		font-size: clamp(1.816875rem, 4.0375vw, calc(var(--text-3xl) * 0.8075));
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: -0.0085em;
+		line-height: 1.05;
+		margin-bottom: 1.33rem;
+	}
+
+	.hero__body {
+		font-size: calc(var(--text-lg) * 0.85);
+		color: rgba(255, 255, 255, 0.78);
+		max-width: 32rem;
+		margin-bottom: 1.6rem;
+		filter: drop-shadow(0 7px 24px rgba(0, 0, 0, 0.7));
+	}
+
+	.hero__button {
+		--btn-pad: 0.75rem 1.5rem;
+		position: relative;
+		display: inline-flex;
+		background: #fff;
+		color: #050505;
+		text-decoration: none;
+		overflow: hidden;
+		isolation: isolate;
+	}
+
+	.hero__button-bg {
+		position: absolute;
+		inset: 0;
+		width: 2px;
+		background: var(--accent);
+		transition: width 350ms var(--ease-standard);
+		z-index: 0;
+	}
+
+	.hero__button:hover .hero__button-bg,
+	.hero__button:focus-visible .hero__button-bg {
+		width: 100%;
+	}
+
+	.hero__button:active .hero__button-bg {
+		background: color-mix(in srgb, var(--accent) 80%, black);
+	}
+
+	.hero__button-edge {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 2px;
+		background: #fff;
+		opacity: 0;
+		z-index: 1;
+		transition: opacity 350ms var(--ease-standard);
+	}
+
+	.hero__button:hover .hero__button-edge,
+	.hero__button:focus-visible .hero__button-edge {
+		opacity: 1;
+	}
+
+	.hero__button-label {
+		position: relative;
+		z-index: 1;
+		display: inline-flex;
+		align-items: center;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: var(--btn-pad);
+		white-space: nowrap;
+		transition: transform 150ms var(--ease-standard);
+	}
+
+	.hero__button-label::after {
+		content: attr(data-label);
+		position: absolute;
+		inset: 0;
+		display: flex;
+		align-items: center;
+		padding: var(--btn-pad);
+		color: #fff;
+		clip-path: inset(0 100% 0 0);
+		transition: clip-path 350ms var(--ease-standard);
+		pointer-events: none;
+	}
+
+	.hero__button:hover .hero__button-label::after,
+	.hero__button:focus-visible .hero__button-label::after {
+		clip-path: inset(0 0 0 0);
+	}
+
+	.hero__button:active .hero__button-label {
+		transform: scale(0.97);
+	}
+
+	.hero__footer {
+		position: relative;
+		z-index: 2;
+		display: flex;
+		flex-direction: column;
+		gap: calc(var(--space-4) + 25px);
+		padding: 0 var(--hero-pad-x) calc(var(--space-4) + 10px);
+	}
+
+	.hero__divisions {
+		position: relative;
+		padding-top: 0;
+	}
+
+	.hero__divisions-track {
+		position: relative;
+		isolation: isolate;
+	}
+
+	.hero__divisions-line {
+		display: block;
+		width: 100%;
+		height: 1px;
+		background: rgba(255, 255, 255, 0.7);
+	}
+
+	.hero__indicator {
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 6.25px;
+		width: 20%;
+		z-index: 1;
+		background: var(--accent);
+		pointer-events: none;
+		transition: left 200ms var(--ease-standard);
+	}
+
+	.hero__division-list {
+		list-style: none;
+		display: flex;
+		margin: -1px 0 0;
+		padding: 0;
+	}
+
+	.hero__division-list li {
+		position: relative;
+		flex: 1 1 20%;
+		display: flex;
+	}
+
+	.hero__division-inner {
+		position: relative;
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		transform: scale(1);
+		transform-origin: top center;
+		transition: transform 350ms var(--ease-standard);
+	}
+
+	.hero__division-inner.is-grown {
+		transform: scale(1.05);
+	}
+
+	.hero__division-btn {
+		all: unset;
+		position: relative;
+		box-sizing: border-box;
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: var(--text-xs);
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.8);
+		padding: 1.2rem 2rem 0.85rem;
+		border-radius: 0;
+		background: transparent;
+		transition: color 200ms var(--ease-standard);
+	}
+
+	.hero__division-btn[aria-current="true"] {
+		color: #fff;
+	}
+
+	li[data-pinned="true"] .hero__division-label {
+		transform: translateX(var(--label-shift, -0.6rem));
+	}
+
+	.hero__division-label {
+		position: relative;
+		z-index: 1;
+		display: inline-block;
+		transition: transform 200ms var(--ease-standard);
+	}
+
+	.hero__division-arrow {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: 1;
+		display: flex;
+		align-items: center;
+		font-weight: 700;
+		color: #fff;
+		text-decoration: none;
+		opacity: var(--arrow-fill, 0);
+		pointer-events: none;
+		transform: translateX(var(--arrow-x, 2rem)) translateY(calc(-50% + 0.175rem)) rotate(-45deg) scale(0.5);
+		transition:
+			opacity var(--arrow-duration, 250ms) var(--ease-standard),
+			transform 350ms var(--ease-standard);
+	}
+
+	li[data-pinned="true"] .hero__division-arrow {
+		pointer-events: auto;
+		transform: translateX(var(--arrow-x, 2rem)) translateY(calc(-50% + 0.175rem)) rotate(45deg) scale(1);
+	}
+
+	li[data-pinned="true"] .hero__division-inner:hover .hero__division-arrow {
+		transform: translateX(var(--arrow-x, 2rem)) translateY(calc(-50% + 0.175rem)) rotate(0deg) scale(1);
+	}
+
+	/* the pulse lives on the inner glyph (its own transform), so it never fights
+	   with the rotate transition above on the outer element in either direction */
+	.hero__division-arrow-glyph {
+		display: block;
+		transition: transform 250ms var(--ease-standard), opacity 250ms var(--ease-standard);
+	}
+
+	li[data-pinned="true"] .hero__division-inner:hover .hero__division-arrow .hero__division-arrow-glyph {
+		animation: hero-arrow-pulse 1.8s ease-in-out infinite;
+	}
+
+	@keyframes hero-arrow-pulse {
+		0%,
+		100% {
+			transform: scale(1);
+			opacity: 1;
+		}
+		50% {
+			transform: scale(1.15);
+			opacity: 0.6;
+		}
+	}
+
+	.hero__scroll {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		margin-left: 0rem;
+		font-size: var(--text-xs);
+		font-weight: 600;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: rgba(255, 255, 255, 0.8);
+	}
+
+	.hero__scroll-line {
+		width: 2px;
+		height: 1.1rem;
+		background: var(--accent);
+		transition: background var(--hero-transition) var(--ease-standard);
+	}
+
+	.hero__burger {
+		all: unset;
+		display: none;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 5px;
+		width: 2.25rem;
+		height: 2.25rem;
+		cursor: pointer;
+		flex: none;
+	}
+
+	.hero__burger-bar {
+		display: block;
+		width: 1.35rem;
+		height: 2px;
+		background: #fff;
+		transition: transform 250ms var(--ease-standard), opacity 250ms var(--ease-standard);
+	}
+
+	.hero__burger[aria-expanded="true"] .hero__burger-bar:nth-child(1) {
+		transform: translateY(7px) rotate(45deg);
+	}
+
+	.hero__burger[aria-expanded="true"] .hero__burger-bar:nth-child(2) {
+		opacity: 0;
+	}
+
+	.hero__burger[aria-expanded="true"] .hero__burger-bar:nth-child(3) {
+		transform: translateY(-7px) rotate(-45deg);
+	}
+
+	.hero__mobile-panel {
+		position: fixed;
+		inset: 0;
+		z-index: 4;
+		display: none;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+		background: var(--color-graphite);
+		opacity: 0;
+		visibility: hidden;
+		transform: translateX(100%);
+		transition:
+			opacity 380ms var(--ease-standard),
+			transform 380ms var(--ease-standard),
+			visibility 380ms;
+	}
+
+	.hero__mobile-panel::before {
+		content: "";
+		position: absolute;
+		top: var(--nav-height);
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: color-mix(in srgb, #fff 15%, transparent);
+	}
+
+	.hero__mobile-panel[data-open="true"] {
+		opacity: 1;
+		visibility: visible;
+		transform: translateX(0);
+	}
+
+	.hero__mobile-panel-scroll {
+		flex: 1;
+		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: var(--space-5);
+		padding: calc(var(--nav-height) + var(--space-4)) var(--space-5) var(--space-5);
+	}
+
+	.hero__mobile-panel-divisions {
+		list-style: none;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: var(--space-4);
+		margin: 0;
+		padding: 0 0 var(--space-5);
+		width: 100%;
+		max-width: 22rem;
+		border-bottom: 1px solid color-mix(in srgb, #fff 15%, transparent);
+	}
+
+	.hero__mobile-panel-division {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		padding-top: var(--space-3);
+		text-decoration: none;
+	}
+
+	.hero__mobile-panel-divisions li:last-child {
+		grid-column: 1 / -1;
+	}
+
+	.hero__mobile-panel-division-bar {
+		display: block;
+		width: 2rem;
+		height: 3px;
+		margin-bottom: 0.6rem;
+		background: var(--division-color);
+	}
+
+	.hero__mobile-panel-division-name {
+		margin: 0;
+		font-size: calc(var(--text-xs) * 0.85);
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+		color: #fff;
+	}
+
+	.hero__mobile-panel-primary {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		width: 100%;
+	}
+
+	.hero__mobile-panel-primary a {
+		text-decoration: none;
+		color: color-mix(in srgb, #fff 80%, transparent);
+		font-size: var(--text-sm);
+		font-weight: 600;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+		padding: 0.85rem 0;
+		width: 100%;
+		max-width: 22rem;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+		transition: color 250ms var(--ease-standard);
+	}
+
+	.hero__mobile-panel-primary a:last-child {
+		border-bottom: none;
+	}
+
+	.hero__mobile-panel-primary a:hover,
+	.hero__mobile-panel-primary a:focus-visible {
+		color: #fff;
+	}
+
+	.hero__mobile-panel-cta {
+		color: var(--accent) !important;
+	}
+
+	@media (max-width: 1024px) {
+		.hero__nav-links {
+			display: none;
+		}
+
+		.hero__cta-nav {
+			display: none;
+		}
+
+		.hero__burger {
+			display: flex;
+		}
+
+		.hero__mobile-panel {
+			display: flex;
+			overflow-y: auto;
+		}
+	}
+
+	@media (max-width: 860px) {
+		.hero__division-list {
+			gap: var(--space-3);
+			overflow-x: auto;
+		}
+	}
+
+	.hero__mobile-indicator {
+		display: none;
+	}
+
+	@media (max-width: 640px) {
+		.hero__nav {
+			padding: var(--space-3) var(--hero-pad-x) 0;
+			gap: var(--space-3);
+		}
+
+		.hero__logo-word,
+		.hero__logo-sub {
+			width: 4.5rem;
+		}
+
+		.hero__cta-nav {
+			display: none;
+		}
+
+		.hero__burger {
+			width: 2.75rem;
+			height: 2.75rem;
+		}
+
+		.hero__content {
+			justify-content: center;
+			text-align: center;
+		}
+
+		.hero__copy {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+
+		.hero__body {
+			max-width: 26rem;
+			color: #fff;
+		}
+
+		.hero__footer {
+			gap: calc(var(--space-4) + 12px);
+			align-items: center;
+		}
+
+		.hero__divisions {
+			display: none;
+		}
+
+		.hero__mobile-indicator {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 100%;
+			gap: var(--space-3);
+			transition: opacity 400ms var(--ease-standard);
+		}
+
+		.hero__mobile-indicator.is-changing {
+			opacity: 0;
+			transition-duration: 250ms;
+		}
+
+		.hero__mobile-indicator-line {
+			width: var(--mobile-line-width, 10rem);
+			height: 4px;
+			background: var(--accent);
+			transition:
+				background var(--hero-transition) var(--ease-standard),
+				width 300ms var(--ease-standard);
+		}
+
+		.hero__mobile-indicator-row {
+			display: flex;
+			align-items: center;
+			gap: 0.6rem;
+		}
+
+		.hero__mobile-indicator-label {
+			font-size: var(--text-xs);
+			font-weight: 700;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: #fff;
+		}
+
+		.hero__mobile-indicator-arrow {
+			display: flex;
+			align-items: center;
+			color: #fff;
+			font-weight: 700;
+			text-decoration: none;
+			transform: rotate(45deg);
+		}
+	}
+</style>
+
+<script>
+	interface Division {
+		id: string;
+		accent: string;
+		image: string;
+		logoSub: string;
+		eyebrow: string;
+		title: string;
+		body: string;
+		cta: string;
+		href: string;
+	}
+
+	const hero = document.getElementById("hero") as HTMLElement;
+	const divisions: Division[] = JSON.parse(hero.dataset.divisionsJson ?? "[]");
+
+	const slides = Array.from(hero.querySelectorAll<HTMLElement>("[data-slide]"));
+	const logoImgs = Array.from(hero.querySelectorAll<HTMLElement>("[data-logo-img]"));
+	const links = Array.from(hero.querySelectorAll<HTMLButtonElement>("[data-division]"));
+	const indicator = hero.querySelector<HTMLElement>("[data-indicator]");
+	const divisionsWrap = hero.querySelector<HTMLElement>("[data-divisions]");
+	const copy = hero.querySelector<HTMLElement>("[data-copy]");
+
+	const eyebrowEl = hero.querySelector<HTMLElement>('[data-field="eyebrow"]');
+	const titleEl = hero.querySelector<HTMLElement>('[data-field="title"]');
+	const bodyEl = hero.querySelector<HTMLElement>('[data-field="body"]');
+	const ctaEl = hero.querySelector<HTMLAnchorElement>('[data-field="cta"]');
+	const ctaLabelEl = hero.querySelector<HTMLElement>('[data-field="cta-label"]');
+	const underlineEl = hero.querySelector<HTMLElement>(".pencil-underline");
+	const mobileIndicator = hero.querySelector<HTMLElement>("[data-mobile-indicator]");
+	const mobileLabelEl = hero.querySelector<HTMLElement>('[data-field="mobile-label"]');
+	const mobileArrowEl = hero.querySelector<HTMLAnchorElement>('[data-field="mobile-arrow"]');
+
+	function replayUnderline() {
+		if (!underlineEl) return;
+		underlineEl.classList.remove("is-visible");
+		// force reflow so the removal is committed before re-adding the class
+		void underlineEl.offsetWidth;
+		underlineEl.classList.add("is-visible");
+	}
+
+	const logoDelayMs = 200;
+	const copyExitMs = 400;
+	const stepMoveMs = 128;
+	const minMoveMs = 176;
+	const maxMoveMs = 720;
+	let changeTimer: number | undefined;
+	let logoTimer: number | undefined;
+	let lastMoveMs = minMoveMs;
+
+	function positionIndicator(link: HTMLButtonElement, durationMs: number) {
+		if (!indicator) return;
+		const li = link.closest("li") as HTMLElement;
+		indicator.style.transitionDuration = `${durationMs}ms`;
+		indicator.style.left = `${li.offsetLeft}px`;
+		indicator.style.width = `${li.offsetWidth}px`;
+	}
+
+	// longer hops (e.g. Design & Build -> Signage) get a proportionally longer,
+	// more visible slide instead of covering more ground in the same fixed time
+	function setActive(id: string, instant = false) {
+		if (hero.dataset.active === id) return;
+
+		const index = divisions.findIndex((d) => d.id === id);
+		const division = divisions[index];
+		const link = links[index];
+		const slide = slides[index];
+		if (!division || !link || !slide) return;
+
+		const previousIndex = divisions.findIndex((d) => d.id === hero.dataset.active);
+		const steps = previousIndex >= 0 ? Math.max(1, Math.abs(index - previousIndex)) : 1;
+		lastMoveMs = instant ? 0 : Math.min(maxMoveMs, Math.max(minMoveMs, stepMoveMs * steps));
+
+		hero.dataset.active = id;
+		hero.style.setProperty("--accent", division.accent);
+
+		slides.forEach((s) => (s.dataset.active = s === slide ? "true" : "false"));
+		links.forEach((l) => l.setAttribute("aria-current", l === link ? "true" : "false"));
+		positionIndicator(link, lastMoveMs);
+
+		window.clearTimeout(logoTimer);
+		const logoDelay = instant ? 0 : logoDelayMs;
+		logoTimer = window.setTimeout(() => {
+			logoImgs.forEach((img) => (img.dataset.active = img.dataset.logoImg === id ? "true" : "false"));
+		}, logoDelay);
+
+		window.clearTimeout(changeTimer);
+		if (!instant) {
+			copy?.classList.add("is-changing");
+			mobileIndicator?.classList.add("is-changing");
+		}
+		const copyDelay = instant ? 0 : copyExitMs;
+		changeTimer = window.setTimeout(() => {
+			if (eyebrowEl) eyebrowEl.textContent = division.eyebrow;
+			if (titleEl) titleEl.textContent = division.title;
+			if (bodyEl) bodyEl.textContent = division.body;
+			if (ctaLabelEl) {
+				ctaLabelEl.textContent = division.cta;
+				ctaLabelEl.setAttribute("data-label", division.cta);
+			}
+			if (ctaEl) ctaEl.setAttribute("href", division.href);
+			if (mobileLabelEl) mobileLabelEl.textContent = division.eyebrow.replace("HOX BOX ", "");
+			syncMobileLineWidth();
+			if (mobileArrowEl) {
+				mobileArrowEl.setAttribute("href", division.href);
+				mobileArrowEl.setAttribute("aria-label", `Go to ${division.eyebrow}`);
+			}
+			copy?.classList.remove("is-changing");
+			mobileIndicator?.classList.remove("is-changing");
+			replayUnderline();
+		}, copyDelay);
+	}
+
+	const previewDelayMs = 500;
+	const riseMs = 384;
+	const fadeOutMs = 280;
+	const snapMs = 160;
+	const arrowFadeMs = 200;
+	const baseFill = 0.16;
+	let previewTimer: number | undefined;
+	let riseStartTimer: number | undefined;
+	let lockTimer: number | undefined;
+	let pinnedId: string = divisions[0]?.id ?? "";
+	const items = Array.from(hero.querySelectorAll<HTMLLIElement>("[data-item]"));
+
+	function getItem(id: string) {
+		return items.find((item) => item.dataset.item === id);
+	}
+
+	function getInner(id: string) {
+		return getItem(id)?.querySelector<HTMLElement>(".hero__division-inner");
+	}
+
+	function setFill(item: HTMLLIElement | undefined, value: number, durationMs: number) {
+		if (!item) return;
+		item.style.setProperty("--fill", String(value));
+		item.style.setProperty("--fill-duration", `${durationMs}ms`);
+	}
+
+	function setArrowFill(id: string, value: number, durationMs: number = arrowFadeMs) {
+		const item = getItem(id);
+		if (item) {
+			item.style.setProperty("--arrow-fill", String(value));
+			item.style.setProperty("--arrow-duration", `${durationMs}ms`);
+		}
+	}
+
+	function clearTimers() {
+		window.clearTimeout(previewTimer);
+		window.clearTimeout(riseStartTimer);
+		window.clearTimeout(lockTimer);
+	}
+
+	// the low-opacity box travels with the indicator immediately (same duration),
+	// then — only if the hover is sustained — rises the rest of the way to full/lock
+	function switchTo(id: string) {
+		const previousId = hero.dataset.active ?? pinnedId;
+		setActive(id);
+		const moveMs = lastMoveMs;
+		setFill(getItem(id), baseFill, moveMs);
+		setArrowFill(id, 0, 0);
+		if (previousId !== id) {
+			setFill(getItem(previousId), 0, fadeOutMs);
+			setArrowFill(previousId, 0, arrowFadeMs);
+		}
+
+		riseStartTimer = window.setTimeout(() => {
+			setFill(getItem(id), 1, riseMs);
+		}, moveMs);
+		lockTimer = window.setTimeout(() => lockTo(id), moveMs + riseMs);
+	}
+
+	function lockTo(id: string, riseDurationMs: number = snapMs) {
+		const previousId = pinnedId;
+		pinnedId = id;
+		items.forEach((item) => item.setAttribute("data-pinned", item.dataset.item === id ? "true" : "false"));
+		setFill(getItem(id), 1, riseDurationMs);
+		if (previousId !== id) {
+			setFill(getItem(previousId), 0, fadeOutMs);
+			getInner(previousId)?.classList.remove("is-grown");
+		}
+		setActive(id);
+
+		setArrowFill(previousId, 0, arrowFadeMs);
+		setArrowFill(id, 1, arrowFadeMs);
+	}
+
+	// whenever the hero has scrolled fully off-screen and the visitor scrolls back
+	// up to it, snap straight back to the default (Design & Build) tab
+	const defaultDivisionId = divisions[0]?.id ?? "";
+	let heroWasOffscreen = false;
+
+	function resetToDefaultDivision() {
+		if (pinnedId === defaultDivisionId && hero.dataset.active === defaultDivisionId) return;
+		clearTimers();
+		const previousId = pinnedId;
+		pinnedId = defaultDivisionId;
+		items.forEach((item) => item.setAttribute("data-pinned", item.dataset.item === defaultDivisionId ? "true" : "false"));
+		setFill(getItem(defaultDivisionId), 1, 0);
+		setFill(getItem(previousId), 0, 0);
+		getInner(previousId)?.classList.remove("is-grown");
+		setArrowFill(previousId, 0, 0);
+		setArrowFill(defaultDivisionId, 1, 0);
+		setActive(defaultDivisionId, true);
+	}
+
+	let scrollCheckQueued = false;
+	function checkHeroVisibility() {
+		scrollCheckQueued = false;
+		const isOffscreen = hero.getBoundingClientRect().bottom <= 0;
+		if (isOffscreen) {
+			heroWasOffscreen = true;
+		} else if (heroWasOffscreen) {
+			resetToDefaultDivision();
+			heroWasOffscreen = false;
+		}
+	}
+	window.addEventListener(
+		"scroll",
+		() => {
+			if (scrollCheckQueued) return;
+			scrollCheckQueued = true;
+			requestAnimationFrame(checkHeroVisibility);
+		},
+		{ passive: true }
+	);
+
+	links.forEach((link) => {
+		const id = link.dataset.division as string;
+		const hoverZone = link.closest("li") as HTMLElement;
+
+		hoverZone.addEventListener("mouseenter", () => {
+			clearTimers();
+
+			if (id === pinnedId) {
+				const strandedId = hero.dataset.active;
+				setActive(id);
+				// smooth, same pace as the normal rise — not an instant snap
+				setFill(getItem(id), 1, riseMs);
+				setArrowFill(id, 1, riseMs);
+				// a different item may have been mid-preview (already risen) when we
+				// jumped back here before it locked in — fade it back out, don't leave it stuck
+				if (strandedId && strandedId !== id) {
+					setFill(getItem(strandedId), 0, fadeOutMs);
+					setArrowFill(strandedId, 0, arrowFadeMs);
+				}
+				// only grow when re-hovering an item that's already active/locked —
+				// not during the initial hover that's still activating it
+				getInner(id)?.classList.add("is-grown");
+				return;
+			}
+
+			previewTimer = window.setTimeout(() => switchTo(id), previewDelayMs);
+		});
+
+		hoverZone.addEventListener("mouseleave", () => {
+			clearTimers();
+			getInner(id)?.classList.remove("is-grown");
+
+			if (id === pinnedId) return;
+
+			// hovering off no longer reverts to the previously pinned division — if the
+			// preview had already taken over as active, lock it in right where it is
+			if (hero.dataset.active === id) {
+				lockTo(id, snapMs);
+			}
+		});
+
+		link.addEventListener("focus", () => {
+			clearTimers();
+			switchTo(id);
+		});
+
+		link.addEventListener("click", () => {
+			clearTimers();
+			lockTo(id, snapMs);
+		});
+	});
+
+	divisionsWrap?.addEventListener("mouseleave", () => {
+		clearTimers();
+		items.forEach((item) => item.querySelector(".hero__division-inner")?.classList.remove("is-grown"));
+
+		// leaving the row no longer reverts to the previously pinned division — whatever
+		// was active when the pointer left gets locked in, same as leaving a single item
+		const activeId = hero.dataset.active ?? pinnedId;
+		if (activeId !== pinnedId) {
+			lockTo(activeId, snapMs);
+			return;
+		}
+		items.forEach((item) => {
+			const isPinned = item.dataset.item === pinnedId;
+			setFill(item, isPinned ? 1 : 0, fadeOutMs);
+			if (item.dataset.item) setArrowFill(item.dataset.item, isPinned ? 1 : 0, arrowFadeMs);
+		});
+	});
+
+	window.addEventListener("resize", () => {
+		const active = links.find((l) => l.getAttribute("aria-current") === "true") ?? links[0];
+		if (active) positionIndicator(active, 0);
+	});
+
+	if (links[0]) {
+		requestAnimationFrame(() => positionIndicator(links[0], 0));
+	}
+
+	copy?.classList.add("is-changing");
+	requestAnimationFrame(() => {
+		requestAnimationFrame(() => copy?.classList.remove("is-changing"));
+	});
+
+	// keep a fixed gap between each label and its arrow (as one centered group),
+	// regardless of how wide the division name itself is
+	const labelArrowGapPx = 10;
+
+	function layoutLabelArrowGaps() {
+		items.forEach((item) => {
+			const label = item.querySelector<HTMLElement>(".hero__division-label");
+			const arrow = item.querySelector<HTMLElement>(".hero__division-arrow");
+			if (!label || !arrow) return;
+
+			const labelWidth = label.getBoundingClientRect().width;
+			const arrowWidth = arrow.getBoundingClientRect().width || 20;
+
+			item.style.setProperty("--label-shift", `${-(labelArrowGapPx + arrowWidth) / 2}px`);
+			item.style.setProperty("--arrow-x", `${(labelWidth + labelArrowGapPx) / 2}px`);
+		});
+	}
+
+	layoutLabelArrowGaps();
+	window.addEventListener("resize", layoutLabelArrowGaps);
+	document.fonts?.ready.then(layoutLabelArrowGaps).catch(() => {});
+
+	// mobile accent line should match the width of the current division's
+	// label + gap + arrow as a group, not just the label text alone
+	const mobileLineEl = hero.querySelector<HTMLElement>(".hero__mobile-indicator-line");
+	const mobileIndicatorRowEl = hero.querySelector<HTMLElement>(".hero__mobile-indicator-row");
+
+	function syncMobileLineWidth() {
+		if (!mobileIndicatorRowEl || !mobileLineEl) return;
+		mobileLineEl.style.setProperty("--mobile-line-width", `${mobileIndicatorRowEl.getBoundingClientRect().width}px`);
+	}
+
+	syncMobileLineWidth();
+	window.addEventListener("resize", syncMobileLineWidth);
+	document.fonts?.ready.then(syncMobileLineWidth).catch(() => {});
+
+	const dropdown = hero.querySelector<HTMLElement>("[data-dropdown]");
+	const dropdownTrigger = hero.querySelector<HTMLButtonElement>("[data-dropdown-trigger]");
+
+	function closeDropdown() {
+		if (!dropdown) return;
+		dropdown.dataset.open = "false";
+		dropdownTrigger?.setAttribute("aria-expanded", "false");
+	}
+
+	function toggleDropdown() {
+		if (!dropdown) return;
+		const isOpen = dropdown.dataset.open === "true";
+		dropdown.dataset.open = String(!isOpen);
+		dropdownTrigger?.setAttribute("aria-expanded", String(!isOpen));
+	}
+
+	dropdownTrigger?.addEventListener("click", (event) => {
+		event.stopPropagation();
+		toggleDropdown();
+	});
+
+	document.addEventListener("click", (event) => {
+		if (dropdown && !dropdown.contains(event.target as Node)) closeDropdown();
+	});
+
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") closeDropdown();
+	});
+
+	const burgerTrigger = hero.querySelector<HTMLButtonElement>("[data-burger-trigger]");
+	const mobilePanel = hero.querySelector<HTMLElement>("[data-mobile-panel]");
+
+	function closeMobilePanel() {
+		if (!mobilePanel) return;
+		mobilePanel.dataset.open = "false";
+		burgerTrigger?.setAttribute("aria-expanded", "false");
+	}
+
+	function toggleMobilePanel() {
+		if (!mobilePanel) return;
+		const isOpen = mobilePanel.dataset.open === "true";
+		mobilePanel.dataset.open = String(!isOpen);
+		burgerTrigger?.setAttribute("aria-expanded", String(!isOpen));
+	}
+
+	burgerTrigger?.addEventListener("click", (event) => {
+		event.stopPropagation();
+		toggleMobilePanel();
+	});
+
+	mobilePanel?.addEventListener("click", (event) => {
+		if ((event.target as HTMLElement).tagName === "A") closeMobilePanel();
+	});
+
+	window.addEventListener("resize", () => {
+		if (window.innerWidth > 1024) closeMobilePanel();
+	});
+
+	document.addEventListener("keydown", (event) => {
+		if (event.key === "Escape") closeMobilePanel();
+	});
+
+	// On phone breakpoints the division tabs collapse to a single label + arrow,
+	// so autoplay through them every 5s instead of relying on hover to switch.
+	const mobileMediaQuery = window.matchMedia("(max-width: 640px)");
+	const autoplayIntervalMs = 5000;
+	let autoplayTimer: number | undefined;
+
+	function stopAutoplay() {
+		window.clearInterval(autoplayTimer);
+		autoplayTimer = undefined;
+	}
+
+	function startAutoplay() {
+		stopAutoplay();
+		autoplayTimer = window.setInterval(() => {
+			const currentIndex = divisions.findIndex((d) => d.id === (hero.dataset.active ?? pinnedId));
+			const next = divisions[(currentIndex + 1) % divisions.length];
+			if (next) lockTo(next.id, snapMs);
+		}, autoplayIntervalMs);
+	}
+
+	function syncAutoplay() {
+		if (mobileMediaQuery.matches) {
+			startAutoplay();
+		} else {
+			stopAutoplay();
+		}
+	}
+
+	mobileMediaQuery.addEventListener("change", syncAutoplay);
+	syncAutoplay();
+</script>

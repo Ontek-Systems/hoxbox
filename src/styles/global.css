@@ -1,5 +1,13 @@
 @import "./tokens.css";
 
+@font-face {
+	font-family: "LEMONMILK";
+	src: url("/fonts/LEMONMILK-Bold.otf") format("opentype");
+	font-weight: 700;
+	font-style: normal;
+	font-display: swap;
+}
+
 *,
 *::before,
 *::after {
@@ -8,6 +16,8 @@
 
 html {
 	-webkit-text-size-adjust: 100%;
+	background: var(--color-bg);
+	overscroll-behavior-y: none;
 }
 
 body {
@@ -17,6 +27,14 @@ body {
 	font-family: var(--font-body);
 	font-size: var(--text-base);
 	line-height: var(--leading-normal);
+	overflow-x: hidden;
+	overscroll-behavior-y: none;
+}
+
+.page-content {
+	position: relative;
+	z-index: 1;
+	background: var(--color-bg);
 }
 
 img,
@@ -26,6 +44,10 @@ canvas,
 svg {
 	display: block;
 	max-width: 100%;
+}
+
+img {
+	filter: saturate(1.15);
 }
 
 h1,
