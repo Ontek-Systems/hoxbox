@@ -78,6 +78,8 @@ const divisions = [
 		</div>
 	</div>
 
+	<div class="site-footer__top-divider-row"></div>
+
 	<div class="site-footer__wordmark" aria-hidden="true">HOXBOX</div>
 
 	<div class="site-footer__divisions-row">
@@ -109,8 +111,7 @@ const divisions = [
 		background: var(--color-graphite);
 		color: #fff;
 		overflow: hidden;
-		position: sticky;
-		top: 100vh;
+		position: relative;
 		z-index: 150;
 	}
 
@@ -199,6 +200,10 @@ const divisions = [
 		margin: 0 0 var(--space-6);
 		padding: var(--section-pad-y) clamp(1rem, 2vw, 2rem) 0;
 		user-select: none;
+	}
+
+	.site-footer__top-divider-row {
+		border-top: 1px solid color-mix(in srgb, #fff 15%, transparent);
 	}
 
 	.site-footer__divisions-row {
