@@ -94,6 +94,7 @@ const divisions = [
 	</div>
 	<div class="hero__edge-top"></div>
 	<div class="hero__edge-bottom"></div>
+	<div class="hero__edge-left"></div>
 
 	<header class="hero__nav">
 		<a class="hero__logo" href="/">
@@ -329,6 +330,24 @@ const divisions = [
 		z-index: 1;
 		background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.6) 45%, rgba(0, 0, 0, 0) 100%);
 		pointer-events: none;
+	}
+
+	.hero__edge-left {
+		display: none;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		left: 0;
+		width: 45%;
+		z-index: 1;
+		background: linear-gradient(to right, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.4) 45%, rgba(0, 0, 0, 0) 100%);
+		pointer-events: none;
+	}
+
+	@media (min-width: 1025px) {
+		.hero__edge-left {
+			display: block;
+		}
 	}
 
 	.hero__nav {
