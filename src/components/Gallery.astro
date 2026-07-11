@@ -167,7 +167,7 @@ const divisions = [
 	.gallery__panels {
 		display: flex;
 		gap: var(--space-3);
-		height: clamp(36rem, 57vw, 48rem);
+		height: clamp(24rem, 38vw, 32rem);
 		max-width: 1440px;
 		margin: 0 auto;
 		padding: 0 clamp(2rem, 4.5vw, 4rem);
@@ -339,21 +339,33 @@ const divisions = [
 
 	setActivePanel(defaultActiveKey);
 
-	// The panel nearest the centre of the viewport becomes active as the user
-	// scrolls past it — no hover, no click required to open a panel.
-	if (!reduceMotion) {
-		const scrollObserver = new IntersectionObserver(
-			(entries) => {
-				const visible = entries.filter((entry) => entry.isIntersecting);
-				if (!visible.length) return;
-				const closest = visible.reduce((best, entry) =>
-					Math.abs(entry.boundingClientRect.top) < Math.abs(best.boundingClientRect.top) ? entry : best
-				);
-				const key = (closest.target as HTMLElement).dataset.galleryPanel;
+	const isMobile = window.matchMedia("(max-width: 1024px)").matches;
+
+	if (isMobile) {
+		// Stacked layout: the panel nearest the centre of the viewport becomes
+		// active as the user scrolls past it — no hover on touch devices.
+		if (!reduceMotion) {
+			const scrollObserver = new IntersectionObserver(
+				(entries) => {
+					const visible = entries.filter((entry) => entry.isIntersecting);
+					if (!visible.length) return;
+					const closest = visible.reduce((best, entry) =>
+						Math.abs(entry.boundingClientRect.top) < Math.abs(best.boundingClientRect.top) ? entry : best
+					);
+					const key = (closest.target as HTMLElement).dataset.galleryPanel;
+					if (key) setActivePanel(key);
+				},
+				{ rootMargin: "-40% 0px -40% 0px", threshold: 0 }
+			);
+			panels.forEach((panel) => scrollObserver.observe(panel));
+		}
+	} else {
+		// Side-by-side layout: hovering a panel expands it.
+		panels.forEach((panel) => {
+			panel.addEventListener("mouseenter", () => {
+				const key = panel.dataset.galleryPanel;
 				if (key) setActivePanel(key);
-			},
-			{ rootMargin: "-40% 0px -40% 0px", threshold: 0 }
-		);
-		panels.forEach((panel) => scrollObserver.observe(panel));
+			});
+		});
 	}
 </script>
